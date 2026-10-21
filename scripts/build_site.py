@@ -2,7 +2,7 @@
 from pathlib import Path
 import shutil
 root=Path(__file__).resolve().parents[1]
-candidate=root/'releases/KALEIDO-0.1.0-rc3-EOSM202.zip'
+candidate=root/'releases/KALEIDO-0.1.0-rc4-EOSM202.zip'
 if not candidate.is_file():raise SystemExit('Build and package the candidate first.')
 output=root/'.site-build'
 shutil.copytree(root/'site',output,dirs_exist_ok=True)

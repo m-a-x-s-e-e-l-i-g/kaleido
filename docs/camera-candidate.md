@@ -1,10 +1,10 @@
-# Kaleido 0.1.0-rc3 · EOS M test candidate
+# Kaleido 0.1.0-rc4 · EOS M test candidate
 
 This is an independently built module, not a replacement firmware or Magic Lantern core. It has not been loaded or photographed with on a physical camera during this implementation.
 
-rc3 addresses continued LiveView and post-shot lag: small preview tiles reuse source pixels in cache, and native capture no longer copies a second LCD frame after rendering. RAW processing uses sparse source snapshots and constant-sector scans, with packed bulk operations for centered four-way axial geometry. Full preview resolution, signed chroma, Canon14 precision and Bayer positions are preserved. The previous numeric-label and 180-degree fixes remain. Existing preferences need no reset.
+rc4 fixes memory pressure exposed while changing segments. Preview lookup and RAW scratch share a single exclusive arena, saving 740,516 bytes. Changing 4/6/12 segments does not allocate or restart the effect. After a failed memory startup, changing a setting permits one retry when the menu closes. Other capture faults still require OFF/ON. Existing preferences need no reset.
 
-The camera prefers a 2 MiB private capture arena, keeping the 1.5 MiB allocator reserve. If that arena does not fit or its allocation fails, it retries the prior 895,796-byte minimum. Geometry that cannot fit sparse snapshots uses the bounded graph fallback and can still take longer. No complete RAW snapshot is allocated.
+The camera prefers one 2 MiB private arena, keeping the 1.5 MiB allocator reserve. If that arena does not fit or its allocation fails, it retries the prior 895,796-byte minimum. There is no second preview-workspace allocation. RAW processing owns the arena exclusively; LiveView rebuilds its lookup after release. Full-resolution preview, Canon14 precision and the rc3 pixel-processing optimizations are preserved. Geometry that cannot fit sparse snapshots uses the bounded graph fallback and can still take longer. No complete RAW snapshot is allocated.
 
 ## Install
 

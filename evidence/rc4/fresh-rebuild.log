@@ -1,0 +1,106 @@
+Cloning into 'C:\Users\maxom\Documents\GitHub\kaleidoscope\build\rc4-source-rebuild\.cache\magiclantern'...
+done.
+HEAD is now at ed3e7c0d 200D, 6D2, 750D, 7D2: add ML-SETUP.FIR
+cp README.rst build/README.rst
+python3 ../../modules/readme2modulestrings.py > build/module_strings.h.tmp
+/work/.cache/magiclantern/modules/kaleido/../../modules/readme2modulestrings.py:64: DeprecationWarning: The distutils package is deprecated and slated for removal in Python 3.12. Use setuptools or check PEP 632 for potential alternatives
+  import distutils.spawn
+Help page 1: Compatibility
+Help page 2: Controls
+Help page 3: Capture
+Help page 4: Installation
+mv build/module_strings.h.tmp build/module_strings.h
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/kaleido.d -Wp,-MT,build/kaleido.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -MP -MD -c -o build/kaleido.o kaleido.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/kaleido_driver.d -Wp,-MT,build/kaleido_driver.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -MP -MD -c -o build/kaleido_driver.o kaleido_driver.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/kaleido_settings.d -Wp,-MT,build/kaleido_settings.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -MP -MD -c -o build/kaleido_settings.o kaleido_settings.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/kaleido_raw_trace.d -Wp,-MT,build/kaleido_raw_trace.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -MP -MD -c -o build/kaleido_raw_trace.o kaleido_raw_trace.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/kaleido_capture_gate.d -Wp,-MT,build/kaleido_capture_gate.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -MP -MD -c -o build/kaleido_capture_gate.o kaleido_capture_gate.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/fx_camera.d -Wp,-MT,build/fx_camera.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -MP -MD -c -o build/fx_camera.o shared/fx_camera.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/fx_mirror.d -Wp,-MT,build/fx_mirror.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -O2 -MP -MD -c -o build/fx_mirror.o shared/fx_mirror.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/fx_mirror_raw.d -Wp,-MT,build/fx_mirror_raw.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -O2 -MP -MD -c -o build/fx_mirror_raw.o shared/fx_mirror_raw.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/fx_mirror_sensor.d -Wp,-MT,build/fx_mirror_sensor.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -O2 -MP -MD -c -o build/fx_mirror_sensor.o shared/fx_mirror_sensor.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/fx_pixels.d -Wp,-MT,build/fx_pixels.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -O2 -MP -MD -c -o build/fx_pixels.o shared/fx_pixels.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/gl_format.d -Wp,-MT,build/gl_format.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -MP -MD -c -o build/gl_format.o engine/gl_format.c
+/usr/bin/arm-none-eabi-gcc -Os -D__ARM__ -Wp,-MMD,build/gl_review.d -Wp,-MT,build/gl_review.o -nostdlib -I../../include -Wall -Wextra -Werror-implicit-function-declaration -Wdouble-promotion -Winline -Wundef -Wno-unused-parameter -Wno-unused-function -Wno-format -fomit-frame-pointer -fno-strict-aliasing -ffast-math -fsingle-precision-constant -fno-builtin-printf -fno-common -fno-extended-identifiers -std=gnu99 -I../../src -ggdb3 -DCONFIG_MAGICLANTERN=1 -DCONFIG_DEBUGMSG=  -Werror -march=armv5te -mlong-calls -DMODULE -DMODULE_NAME=kaleido -DCONFIG_MAGICLANTERN -Ishared -Iengine -include shared/fx_namespace.h -DFX_PREFIX=kaleido -DMIRROR_RELEASE -I../../src/ -I. -O2 -MP -MD -c -o build/gl_review.o engine/gl_review.c
+/usr/bin/arm-none-eabi-ld -r -o build/kaleido.mo.tmp build/kaleido.o build/kaleido_driver.o build/kaleido_settings.o build/kaleido_raw_trace.o build/kaleido_capture_gate.o build/fx_camera.o build/fx_mirror.o build/fx_mirror_raw.o build/fx_mirror_sensor.o build/fx_pixels.o build/gl_format.o build/gl_review.o
+/usr/bin/arm-none-eabi-strip --strip-debug --strip-unneeded --discard-all --discard-locals build/kaleido.mo.tmp
+mv build/kaleido.mo.tmp build/kaleido.mo
+readelf -sW build/kaleido.mo | grep GLOBAL | grep -v UND | grep -v COM | grep -v "__module_.*kaleido" | awk "{print \$2 \" \" \$8;}" | sort > build/kaleido.sym.tmp && cat build/kaleido.sym.tmp
+readelf -sW build/kaleido.mo | grep GLOBAL | grep 00000000 | grep UND | awk "{print \$8;}" | sort > build/kaleido.dep.tmp
+mv build/kaleido.dep.tmp build/kaleido.dep
+0000000c kaleido_active
+00000028 kaleido_effect
+00000dd8 kaleido_settings_load
+00000ebc kaleido_settings_save
+00001148 kaleido_raw_trace_request
+000011d4 kaleido_raw_trace_runtime
+00001208 kaleido_raw_trace_status
+00001250 kaleido_raw_trace_cancel
+00001270 kaleido_raw_trace_shutdown
+000012dc kaleido_raw_trace_service
+00002578 kaleido_gate_status
+000025c4 kaleido_gate_request
+000025cc kaleido_gate_request_source
+000025d4 kaleido_gate_request_patch
+000025dc kaleido_gate_request_full
+000025e4 kaleido_gate_full_press
+00002690 kaleido_gate_cancel
+000026d4 kaleido_gate_automatic
+00002774 kaleido_gate_shutdown
+000027e8 kaleido_gate_reader
+00002878 kaleido_gate_service
+0000333c kaleido_canon_gui
+000033a0 kaleido_camera_init
+00003418 kaleido_native_capture_mode
+00003480 kaleido_private_cpu_heap_mode
+00003488 kaleido_capture_scratch_prefer
+00003544 kaleido_capture_scratch_configure
+0000354c kaleido_capture_scratch_share_workspace
+000035e4 kaleido_capture_scratch_acquire
+00003700 kaleido_capture_scratch_release
+00003778 kaleido_start
+000038cc kaleido_stop
+000038e0 kaleido_reset
+0000390c kaleido_controls
+00003960 kaleido_configure
+000039b4 kaleido_half
+00003a64 kaleido_capture
+00003b40 kaleido_key
+00003e24 kaleido_review_time
+00003e68 kaleido_status_get
+00003ebc kaleido_diagnostics
+00003ed0 kaleido_delivered_state
+00003f5c kaleido_filter
+0000471c kaleido_service
+000054c4 kaleido_mirror_size
+00005504 kaleido_mirror_validate
+00005600 kaleido_mirror_ready
+000056dc kaleido_mirror_prepare
+0000620c kaleido_mirror_render
+000070c8 kaleido_mirror_raw_prepare
+00007784 kaleido_mirror_raw_point
+0000786c kaleido_mirror_raw_sample
+0000797c kaleido_mirror_raw_row
+00008eb0 kaleido_mirror_sensor_pack
+000092b0 kaleido_mirror_sensor_inplace_size
+000092f4 kaleido_mirror_sensor_axial
+00009a9c kaleido_mirror_sensor_inplace
+0000a66c kaleido_slit_step
+0000aca8 kaleido_tiff_write_ex
+0000b170 kaleido_tiff_write
+0000b1f0 kaleido_vsnprintf
+0000b48c kaleido_snprintf
+0000b4b4 kaleido_review_init
+0000b4f4 kaleido_review_duration
+0000b538 kaleido_review_publish
+0000b580 kaleido_review_fail
+0000b59c kaleido_review_half
+0000b5d8 kaleido_review_key
+0000b718 kaleido_review_tick
+0000b784 kaleido_review_delivered
+0000b7bc kaleido_review_scale
+mv build/kaleido.sym.tmp build/kaleido.sym
+Linked module: C:\Users\maxom\Documents\GitHub\kaleidoscope\build\rc4-source-rebuild\build\modules\kaleido\kaleido.mo
+Exact installed-core imports: PASS (58 symbols). Camera load remains unverified.
+PASS: independently staged, manifest-verified sources and fresh pinned SDK checkout rebuilt byte-identical kaleido.mo
+SHA256 dc3ccb4e7ff57ba1d86cfb7aedf6a45e723effbcd8ca44236da5fff918ffe21c

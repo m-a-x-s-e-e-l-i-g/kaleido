@@ -4,7 +4,7 @@ Kaleido
 :Author: Max Seelig (MAXmade)
 :License: GPL-2.0-or-later
 :Summary: Radial kaleidoscope for LiveView and native Canon RAW
-:Version: 0.1.0-rc3
+:Version: 0.1.0-rc4
 
 Compatibility
 -------------

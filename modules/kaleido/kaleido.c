@@ -64,6 +64,13 @@ static unsigned int key(unsigned int value)
 static void settings_changed(void)
 {
     fx_params p=kaleido_settings_params(&preferences);fx_controls(&p);
+    /* A failed allocation is otherwise latched by attempted. An explicit
+     * settings change may retry once after the menu closes; never busy-retry
+     * memory failures or clear a latched capture fault. */
+    if(preferences.enabled&&!kaleido_active){
+        fx_status r;fx_status_get(&r);kaleido_gate_report capture;kaleido_gate_status(&capture);
+        if(r.error==10&&capture.phase!=MG_FAILED)attempted=0;
+    }
     dirty=1;changed_ms=get_ms_clock();
 }
 static MENU_SELECT_FUNC(toggle)
@@ -102,7 +109,9 @@ static MENU_UPDATE_FUNC(status)
         MENU_SET_VALUE("Capture unavailable");
         MENU_SET_HELP("%s. Capture stopped (code %d). Switch OFF/ON to retry; restart if it persists.",FX_VERSION,(int)capture.error);
     }else if(r.error){MENU_SET_VALUE("%s",reason(r.error));
-        MENU_SET_HELP("%s. A+ / Auto ISO, Canon RAW, native 1x LCD and Global Draw ON.",FX_VERSION);
+        if(r.error==10)MENU_SET_HELP("%s. Startup free %d KB; need %d KB. Change a setting or switch OFF/ON, then close the menu to retry.",
+            FX_VERSION,(int)(r.free_initial/1024),(int)(r.required/1024));
+        else MENU_SET_HELP("%s. A+ / Auto ISO, Canon RAW, native 1x LCD and Global Draw ON.",FX_VERSION);
     }else{
         MENU_SET_VALUE("%s",!r.running?(preferences.enabled?"ON - Preparing":"OFF"):capture.phase==MG_ARMED?"ON - Ready":capture.phase==MG_HELD?"ON - Saving":"ON - Preparing");
         MENU_SET_HELP("%s. %d segments. Physical shutter saves kaleidoscope CR2; release between shots.",FX_VERSION,(int)kaleido_segment_count(preferences.segments));
@@ -128,7 +137,8 @@ static struct menu_entry entries[]={
 static unsigned int init(void)
 {
     if(!is_camera("EOSM","2.0.2"))return 1;
-    fx_camera_init();if(!fx_native_capture_mode()||!fx_capture_scratch_prefer((2592u*1728u+4u)/5u,2u*1024u*1024u))return 1;
+    fx_camera_init();if(!fx_native_capture_mode()||!fx_capture_scratch_prefer((2592u*1728u+4u)/5u,2u*1024u*1024u)||
+        !fx_capture_scratch_share_workspace())return 1;
     kaleido_settings_load(&preferences);
     fx_params p=kaleido_settings_params(&preferences);fx_controls(&p);
     fx_canon_gui(0);shutting_down=finished=0;attempted=dirty=save_error=0;started_ms=get_ms_clock();

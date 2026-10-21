@@ -50,7 +50,7 @@ static struct {
     size_t scratch_bytes,scratch_minimum,canvas_bytes;
     unsigned scratch_generation;
     int scratch_held,canvas_valid,tearing_down;
-    void *workspace_raw,*workspace;size_t workspace_size;int work_writing;
+    void *workspace_raw,*workspace;size_t workspace_size;int work_writing,work_invalid,workspace_shared;
     gl_review review;
     int current, painting, initialized, requested, reset, log_requested;
     volatile int stop;
@@ -159,11 +159,22 @@ int fx_capture_scratch_prefer(size_t minimum,size_t preferred)
     unsigned irq=lock();
     int valid=camera.report.native_capture&&!FX(effect).temporal&&!FX(active)&&
         !camera.initialized&&!camera.painting&&!camera.work_writing&&
-        !camera.scratch_held&&!camera.report.allocated&&minimum<=preferred&&preferred<=4u*1024u*1024u;
+        !camera.scratch_held&&!camera.report.allocated&&minimum<=preferred&&preferred<=4u*1024u*1024u&&
+        (!camera.workspace_shared||minimum>=FX(effect).workspace_size);
     if(valid){camera.scratch_bytes=preferred;camera.scratch_minimum=minimum;}
     unlock(irq);return valid;
 }
 int fx_capture_scratch_configure(size_t bytes){return fx_capture_scratch_prefer(bytes,bytes);}
+int fx_capture_scratch_share_workspace(void)
+{
+    unsigned irq=lock();
+    int valid=camera.report.native_capture&&!FX(effect).temporal&&!FX(active)&&
+        !camera.initialized&&!camera.painting&&!camera.work_writing&&!camera.scratch_held&&
+        !camera.report.allocated&&FX(effect).workspace_size&&
+        FX(effect).workspace_size<=camera.scratch_minimum;
+    if(valid)camera.workspace_shared=1;
+    unlock(irq);return valid;
+}
 int fx_capture_scratch_acquire(fx_capture_scratch*out)
 {
     if(!out)return 0;
@@ -174,6 +185,7 @@ int fx_capture_scratch_acquire(fx_capture_scratch*out)
         camera.canvas_valid&&!camera.review.state&&!native_review()&&camera.image[0];
     if(valid){
         camera.scratch_held=1;camera.canvas_valid=0;
+        if(camera.workspace_shared)camera.work_invalid=1;
         if(!++camera.scratch_generation)++camera.scratch_generation;
         *out=(fx_capture_scratch){camera.image[0],camera.canvas_bytes,camera.scratch_generation};
     }
@@ -334,7 +346,7 @@ unsigned int fx_filter(void *context)
     fx_state previous=camera.engine[old];
     int resetting=camera.reset;
     if(resetting||!camera.canvas_valid)previous.initialized=0;
-    int prepared=!camera.work_writing&&FX(effect).ready(camera.workspace,camera.workspace_size,&p,W,H,PITCH);
+    int prepared=!camera.work_invalid&&!camera.work_writing&&FX(effect).ready(camera.workspace,camera.workspace_size,&p,W,H,PITCH);
     unlock(irq);
     /* The core owns a separate output buffer for this synchronous callback.
      * Keep the previous committed pixels untouched until delivery is accepted. */
@@ -489,14 +501,15 @@ void fx_service(void)
         camera.report.free_initial=available<0?0:(unsigned)available;camera.report.free_failed=0;
         camera.report.reserve=1536u*1024u;camera.report.allocation_stage=1;
         unsigned images=camera.report.native_capture?1:2;
+        size_t separate_workspace=camera.workspace_shared?0:FX(effect).workspace_size;
         camera.canvas_bytes=camera.scratch_bytes>BYTES?camera.scratch_bytes:BYTES;
         camera.report.required=(unsigned)camera.canvas_bytes+(images-1)*BYTES+
-            (unsigned)FX(effect).workspace_size+camera.report.reserve;
+            (unsigned)separate_workspace+camera.report.reserve;
         int enough=available>=0&&(unsigned)available>=camera.report.required;
         size_t minimum_canvas=camera.scratch_minimum>BYTES?camera.scratch_minimum:BYTES;
         if(!enough&&camera.report.native_capture&&minimum_canvas<camera.canvas_bytes){
             camera.canvas_bytes=minimum_canvas;
-            camera.report.required=(unsigned)camera.canvas_bytes+(unsigned)FX(effect).workspace_size+camera.report.reserve;
+            camera.report.required=(unsigned)camera.canvas_bytes+(unsigned)separate_workspace+camera.report.reserve;
             enough=available>=0&&(unsigned)available>=camera.report.required;
         }
 #ifdef FX_PRIVATE_CPU_HEAP
@@ -523,7 +536,7 @@ void fx_service(void)
             camera.raw[slot]=private_alloc(i,bytes);
             if(!camera.raw[slot]&&!slot&&camera.report.native_capture&&minimum_canvas<bytes){
                 int remaining=GetFreeMemForAllocateMemory();
-                unsigned required=(unsigned)minimum_canvas+(unsigned)FX(effect).workspace_size+camera.report.reserve;
+                unsigned required=(unsigned)minimum_canvas+(unsigned)separate_workspace+camera.report.reserve;
                 if(remaining>=0&&(unsigned)remaining>=required){
                     bytes=camera.canvas_bytes=minimum_canvas;camera.report.required=required;
                     camera.raw[slot]=private_alloc(i,bytes);
@@ -536,11 +549,15 @@ void fx_service(void)
             if(!private_reserves()){camera.report.error=ERR_MEMORY;camera.stop=1;goto cleanup;}
         }
         camera.workspace_size=FX(effect).workspace_size;
+        camera.work_invalid=camera.workspace_shared;
         if(camera.workspace_size){
-            camera.report.allocation_stage=4;
-            camera.workspace_raw=private_alloc(2,camera.workspace_size);
-            if(!camera.workspace_raw){camera.report.error=ERR_MEMORY;camera.stop=1;goto cleanup;}
-            camera.workspace=CACHEABLE(camera.workspace_raw);camera.report.allocated+=(unsigned)camera.workspace_size;
+            if(camera.workspace_shared)camera.workspace=camera.image[0];
+            else{
+                camera.report.allocation_stage=4;
+                camera.workspace_raw=private_alloc(2,camera.workspace_size);
+                if(!camera.workspace_raw){camera.report.error=ERR_MEMORY;camera.stop=1;goto cleanup;}
+                camera.workspace=CACHEABLE(camera.workspace_raw);camera.report.allocated+=(unsigned)camera.workspace_size;
+            }
             if(camera.report.allocated>camera.report.peak)camera.report.peak=camera.report.allocated;
             if(camera.stop||ml_shutdown_requested){camera.stop=1;goto cleanup;}
             if(!private_reserves()){camera.report.error=ERR_MEMORY;camera.stop=1;goto cleanup;}
@@ -558,7 +575,7 @@ void fx_service(void)
         unsigned preparing_irq=lock();
         fx_params preparation=camera.report.frozen?camera.held:camera.desired;
         int prepare=!camera.painting&&!camera.work_writing&&!camera.scratch_held&&!camera.stop&&
-            !FX(effect).ready(camera.workspace,camera.workspace_size,&preparation,W,H,PITCH);
+            (camera.work_invalid||!FX(effect).ready(camera.workspace,camera.workspace_size,&preparation,W,H,PITCH));
         if(prepare){camera.work_writing=1;camera.report.preparing=1;}
         unlock(preparing_irq);
         if(prepare){
@@ -566,6 +583,7 @@ void fx_service(void)
             int result=FX(effect).prepare(camera.workspace,camera.workspace_size,&preparation,W,H,PITCH,&camera.stop);
             sync_caches();preparing_irq=lock();camera.work_writing=0;camera.report.preparing=0;
             camera.report.prepare_ms=get_ms_clock()-begin;
+            if(result==FX_OK)camera.work_invalid=0;
             if(result!=FX_OK&&!camera.stop){camera.report.error=ERR_PIXELS;camera.stop=1;}
             unlock(preparing_irq);
         }
@@ -603,9 +621,10 @@ cleanup:
             camera.report.allocated-=(unsigned)(i?BYTES:camera.canvas_bytes);
         }
         if(camera.workspace_raw){
-            private_free(2,camera.workspace_raw);camera.workspace_raw=0;camera.workspace=0;
-            camera.report.allocated-=(unsigned)camera.workspace_size;camera.workspace_size=0;
+            private_free(2,camera.workspace_raw);camera.workspace_raw=0;
+            camera.report.allocated-=(unsigned)camera.workspace_size;
         }
+        camera.workspace=0;camera.workspace_size=0;camera.work_invalid=1;
         cleanup_irq=lock();camera.initialized=0;camera.canvas_valid=0;
         camera.canvas_bytes=0;camera.tearing_down=0;FX(active)=0;unlock(cleanup_irq);
     }

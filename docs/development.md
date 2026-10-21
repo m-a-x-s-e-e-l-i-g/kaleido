@@ -27,6 +27,14 @@ General LiveView lookup rendering uses 16-pair by 16-row tiles, keeping rotated 
 
 Run `python tools/benchmark_camera_pipeline.py` for full-sensor host timing/hash comparisons against rc2 and ARM preview execution with cache models. Run `python tools/benchmark_sensor_arm.py` for host/ARM parity and instruction work on a reduced packed sensor fixture. `--variant current` reuses the previously recorded baseline. The camera suite also checks no per-frame scratch copy, half-lock/release, rejected-frame fallback, lease/stop exclusion, preferred/minimum allocation recovery and Canon review.
 
+## Shared arena in rc4
+
+Kaleido explicitly opts into `fx_capture_scratch_share_workspace()` after configuring the native scratch limits. Its preview lookup and capture scratch use one allocation because the scratch lease already excludes renders and preparation. Other effects retain separate allocations unless they opt in. The preferred private allocation is now 2,097,152 bytes (was 2,837,668); the minimum is 895,796 (was 1,636,312). The unchanged 1,572,864-byte reserve gives startup plans of 3,670,016 and 2,468,660 bytes. These are private allocator budgets, not total camera RAM or contiguous-allocation guarantees.
+
+Acquiring scratch invalidates delivered state and marks the shared lookup dirty. A stale filter cannot read bitmap bytes as a map. The worker cannot prepare while the lease is held; after release, it rebuilds before accepting a new frame. Stop retains the arena until release, then frees it exactly once. Rebuilding after a photo is the memory tradeoff; steady-state rendering and full-precision RAW algorithms are unchanged.
+
+The frontend retries a failed memory startup once after an explicit settings change and menu close. It neither loops on failure nor clears capture faults. A healthy segment change only updates desired controls and the existing map. Regression tests cover the previous failing low-memory budget, repeated 6/4/12 changes with all later allocations forced to fail, actual RAW use of the shared arena, stale callbacks, reconstruction, cancellation/stop, and unchanged non-sharing behavior. `python scripts/test_native.py --only camera-sanitized` runs this lifecycle fixture with AddressSanitizer and UndefinedBehaviorSanitizer.
+
 ## Building
 
 `python scripts/fetch_ml_build.py` obtains and checks the pinned official archive. If the official server rejects an automated download, obtain the exact archive from the URL in that script and place it at `.cache/magiclantern.2025-06-20.EOSM.202.zip`; the script still verifies its SHA-256 before use. Never substitute another core build.

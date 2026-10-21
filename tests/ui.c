@@ -3,7 +3,7 @@
 #include "../modules/kaleido/kaleido.c"
 int lv=1,lv_paused,ml_shutdown_requested;
 struct test_ui_lens lens_info;
-static unsigned now,menu=1,half,starts,saves,autos,fail_save,fulls,off_during_start;
+static unsigned now,menu=1,half,starts,saves,autos,fail_save,fulls,off_during_start,fail_start_memory;
 static int stopping,have_saved;
 static kaleido_settings saved;
 static fx_status report;
@@ -22,12 +22,13 @@ void fx_camera_init(void){memset(&report,0,sizeof(report));kaleido_active=stoppi
 int fx_native_capture_mode(void){return 1;}
 int fx_capture_scratch_configure(size_t n){assert(n==895796);return 1;}
 int fx_capture_scratch_prefer(size_t minimum,size_t preferred){assert(minimum==895796&&preferred==2097152);return 1;}
+int fx_capture_scratch_share_workspace(void){return 1;}
 int fx_controls(const fx_params*p){assert(p->value[0]<360&&(p->value[1]==4||p->value[1]==6||p->value[1]==12));requested=*p;return 1;}
 void fx_canon_gui(unsigned s){(void)s;}
 void fx_half(int h){(void)h;}
 unsigned fx_filter(void*p){(void)p;return 0;}
 int fx_key(unsigned k){(void)k;return 1;}
-int fx_start(void){assert(!kaleido_active);starts++;kaleido_active=1;stopping=0;if(off_during_start){off_during_start=0;toggle(0,1);}return 1;}
+int fx_start(void){assert(!kaleido_active);starts++;if(fail_start_memory){report.error=10;return 0;}report.error=0;kaleido_active=1;stopping=0;if(off_during_start){off_during_start=0;toggle(0,1);}return 1;}
 void fx_stop(void){stopping=1;}
 void fx_service(void){if(stopping){kaleido_active=0;stopping=0;}report.running=(unsigned)kaleido_active;}
 void fx_status_get(fx_status*out){*out=report;}
@@ -71,6 +72,20 @@ int main(void)
     now+=1500;service_once();assert(starts==before+1&&autos);
     fail_save=1;toggle(0,1);now+=500;service_once();assert(save_error&&dirty);
     fail_save=0;now+=2000;service_once();assert(!dirty&&!save_error&&!saved.enabled);
+    before=starts;fail_start_memory=1;toggle(0,1);service_once();
+    assert(starts==before+1&&!kaleido_active&&attempted&&report.error==10);
+    service_once();assert(starts==before+1); /* No unattended retry loop. */
+    menu=1;preferences.segments=1;configure(&preferences.segments,-1);
+    assert(!preferences.segments&&!attempted);
+    service_once();assert(starts==before+1); /* Wait for the menu to close. */
+    fail_start_memory=0;menu=0;service_once();assert(starts==before+2&&kaleido_active&&!report.error);
+    configure(&preferences.segments,1);service_once();assert(starts==before+2);
+    fx_stop();fx_service();attempted=1;report.error=10;gate_report.phase=MG_FAILED;
+    configure(&preferences.segments,1);assert(attempted); /* Preserve capture fault. */
+    gate_report.phase=MG_IDLE;report.error=13;
+    configure(&preferences.segments,1);assert(attempted); /* Retry memory only. */
+    report.error=10;report.free_initial=2048*1024;report.required=2500*1024;
+    status(entries,&info);assert(strstr(info.help,"2048 KB")&&strstr(info.help,"2500 KB"));
     puts("Kaleido UI: 360 rotation labels, 82 percent labels, signed-only Canon formatter, wrapping/bounds, status/help, restart and persistence PASS");
     return 0;
 }

@@ -1,0 +1,10 @@
+Four-segment low-memory startup: running=0 error=10 required=3209176 free_initial=2472756
+test-camera: tests/camera.c:47: main: Assertion `status().running' failed.
+Traceback (most recent call last):
+  File "C:\Users\maxom\Documents\GitHub\kaleidoscope\scripts\test_native.py", line 13, in <module>
+    subprocess.run(base+['./build/test-camera'],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\maxom\AppData\Local\Python\pythoncore-3.14-64\Lib\subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['docker', 'run', '--rm', '--mount', 'type=bind,source=C:\\Users\\maxom\\Documents\\GitHub\\kaleidoscope,target=/work', '-w', '/work', 'glitchlock-ml-builder:bookworm', './build/test-camera']' returned non-zero exit status 139.

@@ -4,9 +4,9 @@
 
 One wedge becomes a pattern: **4, 6 or 12 segments**, a full **360° rotation control**, and a movable center. Compose in LiveView; the implementation includes a whole-Bayer-cell native Canon CR2 capture path. Kaleido has its own `kaleido.mo`, Shoot menu and checked preference files. It derives from [Mirror Worlds](https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds).
 
-**0.1.0-rc3 is a development candidate.** Host pixel, capture-transport and import checks are not physical-camera acceptance. Loading, responsiveness, RAW processing time, autofocus, Auto ISO, actual CR2 contents and Canon review/Play remain unverified on the EOS M.
+**0.1.0-rc4 is a development candidate.** Host pixel, capture-transport and import checks are not physical-camera acceptance. Loading, responsiveness, RAW processing time, autofocus, Auto ISO, actual CR2 contents and Canon review/Play remain unverified on the EOS M.
 
-**rc3 targets LiveView memory traffic and photo processing.** It renders the existing 720×480 lookup in small tiles and removes the native preview history copy. RAW capture snapshots only referenced cells that will be overwritten, then maps whole Bayer cells with constant-sector scans; centered four-way axial capture uses packed bulk operations. The bounded graph fallback remains for difficult geometry. Existing menu fixes and preferences carry over. See the rc3 validation report for measured component results and their limits.
+**rc4 fixes memory pressure and recovery when changing segments.** Preview lookup and RAW scratch now share one exclusive arena, saving 740,516 bytes. Switching between 4, 6 and 12 segments needs no new allocations. A settings change retries a failed memory startup once after the menu closes. The rc3 tiled preview and faster full-precision RAW processing remain; existing preferences carry over.
 
 ![Kaleido browser playground: twelve reflected segments, rotation and center controls](docs/playground.png)
 
@@ -29,7 +29,7 @@ Open `http://127.0.0.1:8782/`. The assembly step includes the candidate download
 
 The target is **original EOS M / Canon 2.0.2 / Magic Lantern dev 2025-06-20 (ed3e7c0)**. Other cameras and builds are unsupported.
 
-1. Read [the candidate instructions](docs/camera-candidate.md), then unzip [KALEIDO-0.1.0-rc3-EOSM202.zip](releases/KALEIDO-0.1.0-rc3-EOSM202.zip).
+1. Read [the candidate instructions](docs/camera-candidate.md), then unzip [KALEIDO-0.1.0-rc4-EOSM202.zip](releases/KALEIDO-0.1.0-rc4-EOSM202.zip).
 2. With the camera **OFF**, copy only `ML/MODULES/kaleido.mo` to the card. Keep the existing firmware and Magic Lantern core.
 3. In ML's Modules tab, **disable all other MAXmade effect modules**, enable `kaleido.mo`, then fully restart. Kaleido refuses to start while an older sibling module is loaded, including one whose effect switch is OFF.
 4. Use **A+ / Auto ISO / Canon RAW / single-shot / native 1× LCD / Global Draw ON**. Open **Shoot → Kaleido**, turn Live effect ON and choose the pattern.
@@ -53,6 +53,6 @@ python tools/package_module.py --instructions docs/camera-candidate.md
 python scripts/verify_candidate.py
 ```
 
-The packager refuses to overwrite an existing candidate. See [development notes](docs/development.md) and [rc3 verification evidence](docs/validation-rc3.md).
+The packager refuses to overwrite an existing candidate. See [development notes](docs/development.md) and [rc4 verification evidence](docs/validation-rc4.md).
 
 GPL-2.0-or-later. [License](COPYING) · [Credits](NOTICE.md)

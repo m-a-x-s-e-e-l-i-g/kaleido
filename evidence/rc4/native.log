@@ -1,0 +1,19 @@
+Four-segment low-memory startup: running=1 error=0 required=2468660 free_initial=2472756
+Native camera: shared arena, 6/4/12 changes without allocations, map rebuild after RAW, half lock, scratch exclusion, stop, reserve and Canon review PASS
+FULL_RAW segments=4 angle=17 center=500,500 cells=4478976 scratch=895796 seconds=0.246 mismatches=0
+FULL_RAW segments=6 angle=17 center=500,500 cells=4478976 scratch=895796 seconds=0.248 mismatches=0
+FULL_RAW segments=12 angle=17 center=500,500 cells=4478976 scratch=895796 seconds=0.295 mismatches=0
+Native checks: 155857624; failures: 0
+Settings: round-trip, torn-write fallback, recovery and invalid controls PASS
+shot=0 phase=4 error=0 started=1 done=1 changed=704 mismatches=0 held=102200
+shot=1 phase=4 error=0 started=1 done=1 changed=742 mismatches=0 held=102200
+shot=2 phase=4 error=0 started=1 done=1 changed=798 mismatches=0 held=102200
+Kaleido capture repeat: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture caller: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture scratch: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture cancel: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture shutdown: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture overlap: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture planning-cancel: PASS (actual sensor backend/handoff, synthetic transport)
+Full UYVY parity: 349 configurations; 250 lookup preparations; 75 exact legacy fallbacks PASS
+Kaleido UI: 360 rotation labels, 82 percent labels, signed-only Canon formatter, wrapping/bounds, status/help, restart and persistence PASS
