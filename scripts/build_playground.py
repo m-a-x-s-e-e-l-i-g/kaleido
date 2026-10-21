@@ -18,7 +18,10 @@ html=re.sub(r'  <link rel="preload"[^>]+>\n','',html)
 html=html.replace('<link rel="stylesheet" href="styles.css">','<style>'+css+'</style>')
 html=html.replace('<script type="module" src="app.js"></script>','')
 html=html.replace('src="assets/seaside-scene.webp"','src="'+image+'"')
-html=html.replace('href="assets/mark.svg"','href="'+data(site/'assets/mark.svg','image/svg+xml')+'"')
+for name,mime in [('mark.svg','image/svg+xml'),('kaleido-liveview.webp','image/webp'),('kaleido-menu.webp','image/webp')]:
+    asset='assets/'+name;embedded=data(site/asset,mime)
+    for attribute in ['src','href']:
+        html=html.replace(attribute+'="'+asset+'"',attribute+'="'+embedded+'"')
 html=html.replace('href="downloads/KALEIDO-','href="releases/KALEIDO-')
 html=html.replace('</body>','<script type="module">\n'+js+'\n'+app+'\n</script>\n</body>')
 (root/'playground.html').write_text(html,encoding='utf-8',newline='\n')

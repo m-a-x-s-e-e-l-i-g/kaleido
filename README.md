@@ -8,11 +8,19 @@ One wedge becomes a pattern: **4, 6 or 12 segments**, a full **360° rotation co
 
 **rc4 fixes memory pressure and recovery when changing segments.** Preview lookup and RAW scratch now share one exclusive arena, saving 740,516 bytes. Switching between 4, 6 and 12 segments needs no new allocations. A settings change retries a failed memory startup once after the menu closes. The rc3 tiled preview and faster full-precision RAW processing remain; existing preferences carry over.
 
+## From the EOS M
+
+| LiveView | Kaleido settings |
+| --- | --- |
+| ![Kaleidoscope pattern in EOS M LiveView, with Canon exposure information and framing grid](site/assets/kaleido-liveview.webp) | ![Kaleido settings on the EOS M: six segments, zero-degree rotation and a centered origin](site/assets/kaleido-menu.webp) |
+
+*Actual EOS M screen captures. Menu shown: Kaleido 0.1.0-rc2.*
+
+## Browser playground
+
 ![Kaleido browser playground: twelve reflected segments, rotation and center controls](docs/playground.png)
 
 *Browser illustration using the inherited AI-generated starting scene; not a camera photograph. The camera module uses no AI.*
-
-## Try the playground
 
 Open **[playground.html](playground.html)** in your browser. This standalone file needs no server or installation. Change segments, rotation and center, compare with the original, choose your own image and save a PNG. Photos stay in your browser. Browser RGB output illustrates the geometry; it does not emulate a sensor mosaic or prove camera output.
 
