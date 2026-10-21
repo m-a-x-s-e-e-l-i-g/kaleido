@@ -6,3 +6,6 @@ node_modules/
 __pycache__/
 *.pyc
 .site-build/
+
+# Expanded packaging workspace; immutable release ZIPs remain tracked.
+/releases/kaleido-*/

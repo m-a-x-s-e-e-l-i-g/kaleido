@@ -5,3 +5,10 @@
 *.jpg binary
 *.webp binary
 *.woff2 binary
+
+# Preserve recorded host evidence byte-for-byte.
+evidence/*.log -text
+# RST heading underlines are not merge-conflict separators.
+*.rst conflict-marker-size=32
+# Keep upstream font-license text unchanged.
+site/assets/fonts/*-OFL.txt whitespace=-blank-at-eol
