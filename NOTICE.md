@@ -1,6 +1,6 @@
 # Credits and license
 
-Kaleido is by **Max Seelig (MAXmade)**, developed for the original Canon EOS M with Magic Lantern.
+Kaleido is by **Max Seelig ([MAXmade](https://maxmade.nl/))**, developed for the original Canon EOS M with Magic Lantern.
 
 The module and this repository’s original code are licensed **GPL-2.0-or-later**. See [COPYING](COPYING). Preserve the copyright and SPDX notices in source files.
 

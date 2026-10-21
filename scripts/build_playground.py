@@ -18,7 +18,7 @@ html=re.sub(r'  <link rel="preload"[^>]+>\n','',html)
 html=html.replace('<link rel="stylesheet" href="styles.css">','<style>'+css+'</style>')
 html=html.replace('<script type="module" src="app.js"></script>','')
 html=html.replace('src="assets/seaside-scene.webp"','src="'+image+'"')
-for name,mime in [('mark.svg','image/svg+xml'),('kaleido-liveview.webp','image/webp'),('kaleido-menu.webp','image/webp')]:
+for name,mime in [('mark.svg','image/svg+xml')]+[(p.name,'image/webp') for p in sorted((site/'assets').glob('kaleido-*.webp'))]:
     asset='assets/'+name;embedded=data(site/asset,mime)
     for attribute in ['src','href']:
         html=html.replace(attribute+'="'+asset+'"',attribute+'="'+embedded+'"')

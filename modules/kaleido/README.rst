@@ -4,13 +4,14 @@ Kaleido
 :Author: Max Seelig (MAXmade)
 :License: GPL-2.0-or-later
 :Summary: Radial kaleidoscope for LiveView and native Canon RAW
-:Version: 0.1.0-rc4
+:Version: 0.1.0
 
 Compatibility
 -------------
 
-Development candidate for original EOS M / Canon 2.0.2 /
-Magic Lantern dev 2025-06-20 (ed3e7c0). Not camera validated.
+For original EOS M / Canon 2.0.2 /
+Magic Lantern dev 2025-06-20 (ed3e7c0). Author camera-tested rc4;
+0.1.0 retains that implementation with updated version metadata.
 
 Controls
 --------
@@ -28,12 +29,12 @@ Capture
 The capture path preserves whole Bayer cells and optical black.
 General rotated RAW capture uses a checked in-place dependency
 transform with private scratch; processing can be slower than
-Mirror Worlds. Camera timing, AF/Auto ISO, resulting CR2 and
-Canon review/Play still require a rebooted physical-camera test.
+Mirror Worlds. Allow processing to finish between single shots.
+The author reports the preceding rc4 works well on the camera.
 
 Installation
 ------------
 
-Disable all other MAXmade effects before loading this candidate.
+Disable all other MAXmade effects before loading this module.
 Copy only ML/MODULES/kaleido.mo while camera is powered OFF.
 Keep existing autoexec.bin and firmware. No dynamic unload.

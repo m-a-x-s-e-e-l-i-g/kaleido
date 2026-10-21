@@ -45,7 +45,7 @@ The frontend retries a failed memory startup once after an explicit settings cha
 
 The native suite exports fixed coordinate fixtures to `evidence/geometry.json`. `node --test tests/playground.test.mjs` compares browser geometry against these compiled C results in addition to the independent four-quadrant oracle.
 
-`python scripts/build_playground.py` assembles a self-contained `playground.html`: JS, stylesheet, fonts and the sample illustration are embedded. Opening this file directly needs no HTTP server. The candidate download remains a relative link into the project.
+`python scripts/build_playground.py` assembles a self-contained `playground.html`: JS, stylesheet, fonts and the sample illustration are embedded. Opening this file directly needs no HTTP server. The release download remains a relative link into the project.
 
 ## RAW ownership and timing
 
@@ -55,10 +55,12 @@ A bitset marks referenced source cells. Cells that map to themselves remain unto
 
 The exclusive scratch lease invalidates delivered preview state and excludes stale filter callbacks. Stop/shutdown holds the arena and family claim until release. Native spatial frames retain controls rather than an unused private pixel history; rejected frames fall back to Canon input, never scratch bytes. Other effects retain their canvas/history path. Canon review/Play and shutter controls remain with Canon. Other MAXmade effect modules must still be disabled at Modules level and the camera restarted.
 
-The inherited full-capture hold budget is two seconds, checked after completion; no longer duration is silently approved by this candidate. Desktop runtimes are not EOS M estimates. Physical camera timing and watchdog behavior remain required acceptance work.
+The inherited full-capture hold budget is two seconds, checked after completion; no longer duration is silently approved by this candidate. Desktop runtimes are not EOS M estimates. The author reports rc4 works well on the camera. Measured timing and watchdog characterization remain outside that report.
 
 ## Packaging
 
-Run `python tools/package_module.py --instructions docs/camera-candidate.md`. Packaging rechecks the actual module imports, source/artifact hashes and target table, then writes a reproducible stored ZIP with fixed timestamps, member modes and checksums. It refuses to replace an existing release. `python scripts/verify_candidate.py` checks the payload, all extracted checksums, source/build correspondence and reproducible ZIP bytes.
+Run `python tools/package_module.py --instructions docs/installation.md`. Packaging rechecks the actual module imports, source/artifact hashes and target table, then writes a reproducible stored ZIP with fixed timestamps, member modes and checksums. It refuses to replace an existing release. `python scripts/verify_candidate.py` checks the payload, all extracted checksums, source/build correspondence and reproducible ZIP bytes.
 
-Do not publish this candidate as a camera-validated stable release before checking actual rebooted camera behavior and decoded CR2s.
+## First public release
+
+The author reports successful physical-camera testing of rc4. Version 0.1.0 preserves that implementation, changing only the version header and module README metadata. The build compares source hashes against the tested rc4 manifest carried in `docs/camera-test-report.json`; when the predecessor archive is present, it also verifies the archive and module hashes. This comparison works from extracted release sources without requiring older release ZIPs. Automated camera flags describe the newly versioned binary; the separate report records the author-supplied predecessor test. See [0.1.0 validation](validation-0.1.0.md).

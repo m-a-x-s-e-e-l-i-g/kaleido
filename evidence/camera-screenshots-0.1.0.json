@@ -1,0 +1,35 @@
+[
+  {
+    "source": "VRAM2.BMP",
+    "source_sha256": "03543b8913ccd8912df8ae241e43ef9c94da9d2a4ef5a76c2e83eb9a15172bf9",
+    "asset": "kaleido-liveview-screen.webp",
+    "bytes": 255874,
+    "dimensions": [
+      720,
+      480
+    ],
+    "lossless_pixel_match": true
+  },
+  {
+    "source": "VRAM3.BMP",
+    "source_sha256": "2fd6f7a94781ca07d4c527a65b4c3f7c3b0669c5e35d81a06c7e68fc9cac2d2e",
+    "asset": "kaleido-liveview-stonework.webp",
+    "bytes": 305360,
+    "dimensions": [
+      720,
+      480
+    ],
+    "lossless_pixel_match": true
+  },
+  {
+    "source": "VRAM4.BMP",
+    "source_sha256": "45dcbb5692bfd32767b604e15bd094a0a49eb13b3337b37cf2442834fff6be53",
+    "asset": "kaleido-liveview-self-portrait.webp",
+    "bytes": 291842,
+    "dimensions": [
+      720,
+      480
+    ],
+    "lossless_pixel_match": true
+  }
+]

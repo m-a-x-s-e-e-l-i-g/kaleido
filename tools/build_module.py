@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import zipfile
 if __package__:
     from .audit_module import audit
 else:
@@ -132,7 +133,7 @@ def main():
     if sorted((output / (name + ".dep")).read_text().splitlines()) != audit_report["imports"]:
         raise RuntimeError("Generated dependency list disagrees with actual ELF imports")
     manifest = {
-        "kind": "development-module", "version": version, "module": name + ".mo",
+        "kind": "release-module" if re.fullmatch(r"\d+\.\d+\.\d+",version) else "development-module", "version": version, "module": name + ".mo",
         "target": {"camera": "EOSM", "canon_firmware": "2.0.2", "ml_source": ML_REVISION,
                    "ml_build_date": "2025-06-20"},
         "compiler": compiler, "builder_image": image_id,
@@ -145,9 +146,41 @@ def main():
         "source_files": {str(p.relative_to(ROOT)).replace("\\", "/"): hashlib.sha256(p.read_bytes()).hexdigest()
                          for p in module_sources + core_sources + shared_sources},
     }
+    camera_report=ROOT/"docs/camera-test-report.json"
+    if manifest["kind"]=="release-module" and camera_report.is_file():
+        reported=json.loads(camera_report.read_text(encoding="utf-8"))
+        tested_package=ROOT/reported["tested_package"]
+        # The extracted release source carries the predecessor's source hashes,
+        # so rebuilding does not require downloading an older release archive.
+        # In the repository, additionally bind those hashes to the tested ZIP.
+        previous_sources=reported["tested_source_files"]
+        if tested_package.is_file():
+            if hashlib.sha256(tested_package.read_bytes()).hexdigest()!=reported["tested_package_sha256"]:
+                raise RuntimeError("Camera-tested predecessor package changed")
+            with zipfile.ZipFile(tested_package) as tested:
+                previous=json.loads(tested.read("BUILD.json"))
+                if hashlib.sha256(tested.read("ML/MODULES/kaleido.mo")).hexdigest()!=reported["tested_module_sha256"]:
+                    raise RuntimeError("Camera-tested predecessor module changed")
+                if previous["version"]!=reported["tested_version"] or previous["source_files"]!=previous_sources:
+                    raise RuntimeError("Camera-test source manifest/version mismatch")
+        if set(previous_sources)!=set(manifest["source_files"]):
+            raise RuntimeError("Camera-test source set mismatch")
+        for filename,expected in previous_sources.items():
+            current=(ROOT/filename).read_bytes()
+            if filename=="modules/kaleido/README.rst":continue # Documentation/module metadata.
+            if filename=="modules/kaleido/effect_config.h":current=current.replace(version.encode(),reported["tested_version"].encode())
+            if hashlib.sha256(current).hexdigest()!=expected:
+                raise RuntimeError("Implementation differs from camera-tested rc4: "+filename)
+        manifest["camera_test_report"]={**reported,"source_comparison":"only version header and README metadata changed",
+            "independently_observed_by_build_tools":False}
+        manifest["verification"]["same_implementation_as_camera_tested_predecessor"]=True
     (output / "build.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     print(f"Linked module: {output / (name + '.mo')}")
-    print(f"Exact installed-core imports: PASS ({len(audit_report['imports'])} symbols). Camera load remains unverified.")
+    print(f"Exact installed-core imports: PASS ({len(audit_report['imports'])} symbols).")
+    if manifest.get("camera_test_report"):
+        print("Implementation matches author camera-tested rc4; version/documentation metadata only.")
+    else:
+        print("Camera load remains unverified.")
 
 
 if __name__ == "__main__":

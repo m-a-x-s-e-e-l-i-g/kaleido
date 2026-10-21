@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Kaleido · Turn the ordinary around.</title>
-  <meta name="description" content="A kaleidoscope experiment for the original Canon EOS M, by MAXmade. Try 4, 6 or 12 reflections with your own image in the local browser playground.">
+  <meta name="description" content="A camera-tested kaleidoscope module for the original Canon EOS M, by MAXmade. Try 4, 6 or 12 reflections with your own image in the local browser playground.">
   <meta name="theme-color" content="#eee9dd">
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -13,12 +13,12 @@
   <a class="skip" href="#playground">Skip to playground</a>
   <header class="wrap masthead">
     <a class="brand" href="#" aria-label="Kaleido home"><img src="assets/mark.svg" width="42" height="42" alt="">KALEIDO<span>BY MAXmade</span></a>
-    <nav aria-label="Main navigation"><a href="#playground">Play with it ↘</a><a href="#camera">On your camera</a></nav>
+    <nav aria-label="Main navigation"><a href="#playground">Play with it ↘</a><a href="#camera">On your camera</a><a href="https://github.com/m-a-x-s-e-e-l-i-g/kaleido">GitHub ↗</a></nav>
   </header>
   <main>
     <section class="wrap intro">
       <div><p class="eyebrow">ANOTHER WAY TO SEE · EOS M EXPERIMENT Nº 02</p><h1>Turn the<br><em>ordinary</em> around.</h1></div>
-      <div class="intro-note"><span class="rosette" aria-hidden="true">✳</span><p>One little piece of the world.<br>A whole new way to look at it.</p><p class="small">A standalone Magic Lantern module.<br>From the maker of Mirror Worlds.</p></div>
+      <div class="intro-note"><span class="rosette" aria-hidden="true">✳</span><p>One little piece of the world.<br>A whole new way to look at it.</p><p class="small">A standalone Magic Lantern module.<br>By <a href="https://maxmade.nl/">Max Seelig / MAXmade ↗</a>.</p></div>
     </section>
     <section class="workbench" id="playground" aria-labelledby="play-title">
       <div class="wrap">
@@ -42,10 +42,22 @@
     </section>
     <section class="wrap camera" id="camera" aria-labelledby="camera-title">
       <div><p class="eyebrow">02 / THROUGH YOUR VIEWFINDER</p><h2 id="camera-title">A new module.<br>A familiar camera.</h2><p class="lead">Kaleido is its own experiment: its own menu, its own settings, and its own <strong>kaleido.mo</strong>.</p></div>
-      <div class="camera-copy"><p>Choose a wedge, rotate it, move the center. The camera implementation brings the pattern into LiveView and includes a Bayer-preserving native Canon RAW capture path.</p><p><strong>0.1.0-rc4 · Development candidate.</strong> Built for the original EOS M, Canon 2.0.2 and Magic Lantern dev 2025-06-20. Camera loading, capture timing, AF, Auto ISO and saved CR2 output still need physical-camera validation.</p><a class="button" href="downloads/KALEIDO-0.1.0-rc4-EOSM202.zip" download>Download the test candidate ↓</a><p class="small">Read the included instructions. Enable only one MAXmade effect at a time. No replacement firmware or Magic Lantern core.</p></div>
+      <div class="camera-copy"><p>Choose a wedge, rotate it, move the center. The camera implementation brings the pattern into LiveView and includes a Bayer-preserving native Canon RAW capture path.</p><p><strong>0.1.0 · First public release.</strong> For the original EOS M, Canon 2.0.2 and Magic Lantern dev 2025-06-20. Camera-tested by the maker: this release preserves the rc4 implementation that passed testing on the EOS M.</p><a class="button" href="downloads/KALEIDO-0.1.0-EOSM202.zip" download>Download Kaleido 0.1.0 ↓</a><p class="small">Read the included instructions. Enable one MAXmade effect module at a time. <a href="https://github.com/m-a-x-s-e-e-l-i-g/kaleido/releases/tag/v0.1.0">Release notes &amp; checksums ↗</a></p></div>
       <div class="camera-gallery" aria-labelledby="camera-shots-title">
         <h3 id="camera-shots-title">From the EOS M.</h3>
         <div class="camera-shots">
+          <figure class="camera-shot">
+            <a href="assets/kaleido-liveview-stonework.webp" aria-label="Open full-size: Everyday textures. A new structure."><img src="assets/kaleido-liveview-stonework.webp" width="720" height="480" loading="lazy" decoding="async" alt="Stonework reflected into a kaleidoscope pattern in EOS M LiveView"></a>
+            <figcaption>Everyday textures. A new structure.</figcaption>
+          </figure>
+          <figure class="camera-shot">
+            <a href="assets/kaleido-liveview-self-portrait.webp" aria-label="Open full-size: A familiar face, repeated."><img src="assets/kaleido-liveview-self-portrait.webp" width="720" height="480" loading="lazy" decoding="async" alt="Photographer and Canon lenses repeated around the kaleidoscope center in EOS M LiveView"></a>
+            <figcaption>A familiar face, repeated.</figcaption>
+          </figure>
+          <figure class="camera-shot">
+            <a href="assets/kaleido-liveview-screen.webp" aria-label="Open full-size: A screen within a screen."><img src="assets/kaleido-liveview-screen.webp" width="720" height="480" loading="lazy" decoding="async" alt="A television screen reflected into a rectangular kaleidoscope frame in EOS M LiveView"></a>
+            <figcaption>A screen within a screen.</figcaption>
+          </figure>
           <figure class="camera-shot">
             <a href="assets/kaleido-liveview.webp" aria-label="Open the full-size EOS M LiveView screenshot"><img src="assets/kaleido-liveview.webp" width="720" height="480" loading="lazy" decoding="async" alt="Kaleidoscope pattern in EOS M LiveView, with Canon exposure information and framing grid"></a>
             <figcaption>The pattern, on the camera.</figcaption>
@@ -55,10 +67,34 @@
             <figcaption>Its own menu. Segments, rotation and center.</figcaption>
           </figure>
         </div>
-        <p class="small">Actual EOS M screen captures. Menu shown: Kaleido 0.1.0-rc2.</p>
+        <p class="small">Actual EOS M screen captures, in lossless WebP at the original 720 × 480 size. The settings screenshot shows the earlier 0.1.0-rc2 menu.</p>
       </div>
     </section>
+    <section class="wrap setup" id="install" aria-labelledby="install-title">
+      <div><p class="eyebrow">03 / READY WHEN YOU ARE</p><h2 id="install-title">From download<br>to viewfinder.</h2><p class="lead">A small module for a camera you already know.</p></div>
+      <div><ol class="install-steps">
+        <li><strong>Start with Magic Lantern.</strong> You need the original EOS M, Canon 2.0.2 and ML dev 2025-06-20 / EOSM.202. Other models and builds are unsupported.</li>
+        <li><strong>Copy the module.</strong> Download and unzip the release. With the camera OFF, copy <code>ML/MODULES/kaleido.mo</code> to the card. Keep your existing Magic Lantern core.</li>
+        <li><strong>Enable it and restart.</strong> In ML's Modules tab, disable other MAXmade effect modules, enable Kaleido, then power OFF and restart.</li>
+        <li><strong>Compose. Then press the shutter.</strong> Use A+, Auto ISO, Canon RAW, single-shot, native 1× LCD and Global Draw ON. Open Shoot → Kaleido, switch Live effect ON and close the menu. Release the shutter between shots and let processing finish.</li>
+      </ol><a href="https://github.com/m-a-x-s-e-e-l-i-g/kaleido/blob/main/docs/installation.md">Full installation &amp; troubleshooting ↗</a></div>
+    </section>
+    <section class="wrap faq" id="faq" aria-labelledby="faq-title">
+      <div><p class="eyebrow">04 / A FEW THINGS TO KNOW</p><h2 id="faq-title">Curious?</h2></div>
+      <div class="faq-items">
+        <details><summary>What is Magic Lantern?</summary><p><a href="https://www.magiclantern.fm/">Magic Lantern</a> is a free, open-source extension for supported Canon cameras. It runs from the memory card alongside Canon's software, adding tools made by an independent community. Install a compatible version first: <a href="https://builds.magiclantern.fm/EOSM.html">EOS M builds &amp; installation ↗</a>.</p></details>
+        <details><summary>Does the effect end up in the RAW photo?</summary><p>Yes. Kaleido transforms whole Bayer cells in the native Canon CR2 capture path; it is more than a LiveView overlay. The playground above illustrates the geometry in browser RGB. It does not simulate sensor data.</p></details>
+        <details><summary>Can I use autofocus and Auto ISO?</summary><p>Yes, through the normal Canon shutter workflow. Use the supported A+ / Auto ISO setup, compose in LiveView and release the physical shutter between single shots.</p></details>
+        <details><summary>Will it remember my settings?</summary><p>Yes. Live effect, segments, rotation and both center controls save automatically in Kaleido's own preference files. Your rc4 settings carry over.</p></details>
+        <details><summary>What about video, bursts or another camera?</summary><p>This release is for single-shot Canon RAW on the original EOS M with the versions listed above. Video, bursts, remote triggers and long exposures are outside the supported workflow.</p></details>
+        <details><summary>Why won't LiveView start?</summary><p>Check the camera and Magic Lantern versions, native 1× LCD and Global Draw. Disable other MAXmade effects in the Modules tab and restart, even if their effect switches were OFF. See the <a href="https://github.com/m-a-x-s-e-e-l-i-g/kaleido/blob/main/docs/installation.md#troubleshooting">troubleshooting guide</a> or <a href="https://github.com/m-a-x-s-e-e-l-i-g/kaleido/issues">report an issue</a>.</p></details>
+        <details><summary>Who makes Kaleido?</summary><p>Max Seelig, at <a href="https://maxmade.nl/">MAXmade ↗</a>. The module is independent of Canon and released under GPL-2.0-or-later. Explore the <a href="https://github.com/m-a-x-s-e-e-l-i-g/kaleido">source code</a> or read the <a href="https://github.com/m-a-x-s-e-e-l-i-g/kaleido/blob/main/NOTICE.md">credits</a>.</p></details>
+      </div>
+    </section>
+    <section class="wrap related" aria-labelledby="related-title">
+      <p class="eyebrow">ONE MORE WAY TO SEE</p><h2 id="related-title">A simpler reflection?</h2><p>Meet <a href="https://mirror-worlds.netlify.app/">Mirror Worlds ↗</a>, another standalone EOS M module by <a href="https://maxmade.nl/">MAXmade</a>. Simple mirrored effects and reflected borders, with a different kind of symmetry.</p><p class="small">Use one effect module at a time.</p>
+    </section>
   </main>
-  <footer class="wrap"><span>KALEIDO / MAXmade</span><p>Made for curious eyes. GPL-2.0-or-later.</p><a href="https://mirror-worlds.netlify.app/">Meet Mirror Worlds ↗</a></footer>
+  <footer class="wrap"><span>KALEIDO / <a href="https://maxmade.nl/">MAXmade ↗</a></span><p>Made for curious eyes. GPL-2.0-or-later.</p><a href="https://github.com/m-a-x-s-e-e-l-i-g/kaleido">Source on GitHub ↗</a></footer>
 </body>
 </html>

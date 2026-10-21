@@ -90,7 +90,7 @@ def package_module(module_name, instructions=None, root=ROOT):
             relative = path.relative_to(root).as_posix()
             if path.is_file() and "__pycache__" not in path.parts and "downloads" not in path.parts:
                 files["source/" + relative] = source_file(root, relative)
-    for name in ("README.md", "NOTICE.md", ".gitignore", ".gitattributes", "playground.html"):
+    for name in ("README.md", "NOTICE.md", ".gitignore", ".gitattributes", "netlify.toml", "playground.html"):
         files["source/" + name] = source_file(root, name)
     if len(files) != len({name.casefold() for name in files}):
         raise ValueError("Package input names collide on case-insensitive filesystems")

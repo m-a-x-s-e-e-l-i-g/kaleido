@@ -45,4 +45,7 @@ with zipfile.ZipFile(archive) as z:
     checksum_path.write_text(''.join(sha+'  '+name+'\n' for name,sha in sorted(checksums.items())),encoding='utf-8',newline='\n')
     print(f'PASS: {len(names)} members; every checksum; matching source/module; exact imports; reproducible ZIP')
     print('SHA256 '+digest(archive.read_bytes()))
-    print('Camera load/capture remain unverified.')
+    if build.get('camera_test_report'):
+        assert build['verification']['same_implementation_as_camera_tested_predecessor']
+        print('Camera test: author reports rc4 passed; release implementation matches (version/documentation metadata only).')
+    else:print('Camera load/capture remain unverified.')

@@ -1,0 +1,2 @@
+Four-segment low-memory startup: running=1 error=0 required=2468660 free_initial=2472756
+Native camera: shared arena, 6/4/12 changes without allocations, map rebuild after RAW, half lock, scratch exclusion, stop, reserve and Canon review PASS
