@@ -1,8 +1,10 @@
-# Kaleido 0.1.0-rc2 · EOS M test candidate
+# Kaleido 0.1.0-rc3 · EOS M test candidate
 
 This is an independently built module, not a replacement firmware or Magic Lantern core. It has not been loaded or photographed with on a physical camera during this implementation.
 
-rc2 fixes `u deg` / `u.u%` menu values and replaces repeated LiveView pixel geometry with a compact prepared lookup. All 720×480 preview pixels and U/V chroma values are preserved. Settings use the same files and format as rc1; no reset is required. Rotation 180° also works correctly now: it no longer collides with the inherited edge-mirror parameter tag.
+rc3 addresses continued LiveView and post-shot lag: small preview tiles reuse source pixels in cache, and native capture no longer copies a second LCD frame after rendering. RAW processing uses sparse source snapshots and constant-sector scans, with packed bulk operations for centered four-way axial geometry. Full preview resolution, signed chroma, Canon14 precision and Bayer positions are preserved. The previous numeric-label and 180-degree fixes remain. Existing preferences need no reset.
+
+The camera prefers a 2 MiB private capture arena, keeping the 1.5 MiB allocator reserve. If that arena does not fit or its allocation fails, it retries the prior 895,796-byte minimum. Geometry that cannot fit sparse snapshots uses the bounded graph fallback and can still take longer. No complete RAW snapshot is allocated.
 
 ## Install
 

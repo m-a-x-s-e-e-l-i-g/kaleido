@@ -5,7 +5,7 @@
 #undef main
 #include "fx_mirror_raw.h"
 static unsigned char*sensor_image;
-static unsigned char scratch[(2592*1728+4)/5] __attribute__((aligned(8)));
+static unsigned char scratch[2*1024*1024] __attribute__((aligned(8)));
 static unsigned scratch_busy,fail_scratch,sample_reads,plan_cancel,plan_calls,sensor_writes;
 void FX(sensor_plan_hook)(void)
 {if(plan_cancel&&++plan_calls==10)kaleido_gate_cancel();}

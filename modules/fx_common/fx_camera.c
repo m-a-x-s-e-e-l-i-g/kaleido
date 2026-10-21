@@ -46,8 +46,8 @@ static struct {
     fx_state engine[2], captured;
     uint32_t times[2][720], captured_times[720];
     fx_params desired, held;
-    void *raw[3]; unsigned char *image[3]; /* 0 committed canvas; 2 retained snapshot. */
-    size_t scratch_bytes,canvas_bytes;
+    void *raw[3]; unsigned char *image[3]; /* 0 canvas/native scratch; 2 snapshot. */
+    size_t scratch_bytes,scratch_minimum,canvas_bytes;
     unsigned scratch_generation;
     int scratch_held,canvas_valid,tearing_down;
     void *workspace_raw,*workspace;size_t workspace_size;int work_writing;
@@ -154,15 +154,16 @@ static int private_reserves(void)
 #endif
     return 1;
 }
-int fx_capture_scratch_configure(size_t bytes)
+int fx_capture_scratch_prefer(size_t minimum,size_t preferred)
 {
     unsigned irq=lock();
     int valid=camera.report.native_capture&&!FX(effect).temporal&&!FX(active)&&
         !camera.initialized&&!camera.painting&&!camera.work_writing&&
-        !camera.scratch_held&&!camera.report.allocated&&bytes<=4u*1024u*1024u;
-    if(valid)camera.scratch_bytes=bytes;
+        !camera.scratch_held&&!camera.report.allocated&&minimum<=preferred&&preferred<=4u*1024u*1024u;
+    if(valid){camera.scratch_bytes=preferred;camera.scratch_minimum=minimum;}
     unlock(irq);return valid;
 }
+int fx_capture_scratch_configure(size_t bytes){return fx_capture_scratch_prefer(bytes,bytes);}
 int fx_capture_scratch_acquire(fx_capture_scratch*out)
 {
     if(!out)return 0;
@@ -356,7 +357,12 @@ unsigned int fx_filter(void *context)
         /* Publish controls before refreshing the committed canvas: half/capture
          * edges during this copy now refer to the accepted display. Painting
          * excludes another filter, geometry preparation and teardown throughout. */
-        unsigned copying=get_ms_clock();unlock(irq);copy_pixels(camera.image[0],b->dst_buf);
+        unsigned copying=get_ms_clock();
+        /* Native spatial capture needs only the delivered controls. Its arena
+         * is capture scratch, not history/export pixels. Do not copy another
+         * 691200 bytes after every frame, or later display scratch as pixels. */
+        int retain=!camera.report.native_capture;unlock(irq);
+        if(retain)copy_pixels(camera.image[0],b->dst_buf);
         /* This private canvas is read only by CPU code, never Canon DMA.
          * Avoid a second full D/I cache sync and cache-patch reapplication. */
 #ifdef FX_HOST_TEST
@@ -365,7 +371,7 @@ unsigned int fx_filter(void *context)
         irq=lock();camera.report.commit_ms=get_ms_clock()-copying;
     }else{
         camera.report.discarded++;if(error&&error!=4)camera.report.error=ERR_PIXELS;
-        int have=camera.canvas_valid&&camera.engine[old].initialized;unlock(irq);
+        int have=!camera.report.native_capture&&camera.canvas_valid&&camera.engine[old].initialized;unlock(irq);
         memcpy(b->dst_buf,have?camera.image[0]:b->src_buf,BYTES);sync_caches();irq=lock();
     }
     camera.report.render_ms=get_ms_clock()-started;camera.painting=0;unlock(irq);return 0;
@@ -487,6 +493,12 @@ void fx_service(void)
         camera.report.required=(unsigned)camera.canvas_bytes+(images-1)*BYTES+
             (unsigned)FX(effect).workspace_size+camera.report.reserve;
         int enough=available>=0&&(unsigned)available>=camera.report.required;
+        size_t minimum_canvas=camera.scratch_minimum>BYTES?camera.scratch_minimum:BYTES;
+        if(!enough&&camera.report.native_capture&&minimum_canvas<camera.canvas_bytes){
+            camera.canvas_bytes=minimum_canvas;
+            camera.report.required=(unsigned)camera.canvas_bytes+(unsigned)FX(effect).workspace_size+camera.report.reserve;
+            enough=available>=0&&(unsigned)available>=camera.report.required;
+        }
 #ifdef FX_PRIVATE_CPU_HEAP
         if(camera.report.cpu_memory){
             int cpu=GetFreeMemForMalloc();fx_memory_plan plan;
@@ -509,6 +521,14 @@ void fx_service(void)
             camera.report.allocation_stage=2+i;
             size_t bytes=slot?BYTES:camera.canvas_bytes;
             camera.raw[slot]=private_alloc(i,bytes);
+            if(!camera.raw[slot]&&!slot&&camera.report.native_capture&&minimum_canvas<bytes){
+                int remaining=GetFreeMemForAllocateMemory();
+                unsigned required=(unsigned)minimum_canvas+(unsigned)FX(effect).workspace_size+camera.report.reserve;
+                if(remaining>=0&&(unsigned)remaining>=required){
+                    bytes=camera.canvas_bytes=minimum_canvas;camera.report.required=required;
+                    camera.raw[slot]=private_alloc(i,bytes);
+                }
+            }
             if(!camera.raw[slot]){camera.report.error=ERR_MEMORY;camera.stop=1;goto cleanup;}
             camera.image[slot]=CACHEABLE(camera.raw[slot]);camera.report.allocated+=(unsigned)bytes;
             if(camera.report.allocated>camera.report.peak)camera.report.peak=camera.report.allocated;

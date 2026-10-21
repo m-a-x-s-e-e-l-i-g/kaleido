@@ -1,0 +1,370 @@
+{
+  "baseline_revision": "6b6439c",
+  "camera_FPS_verified": false,
+  "camera_capture_time_verified": false,
+  "cache_model": "cold 4-way LRU, 32-byte lines, write allocate; 8/16/32 KiB; no timing model",
+  "variants": {
+    "baseline": {
+      "source_sha256": {
+        "fx_mirror.c": "a55250469e758be9b2a7bddec7a1700f4e715e9966a642eb5bc37c98be964c35",
+        "fx_mirror_raw.c": "0d7e5be00aec3393b1420e0f6fe41d6a8b9465e84cbfa52182ab8adcac63a41d",
+        "fx_mirror_sensor.c": "323841a1533a155b34ea808f3620b8989b9a298a6509a13d794e160295fbf19d"
+      },
+      "preview": {
+        "six-default": {
+          "instructions": 3882329,
+          "prepare_instructions": null,
+          "sha256": "9798efd8f00a0e26a05aa45ba2891d8e8de41005a9776353c55c56f92adf2e57",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 169844,
+              "output": 43200,
+              "lookup": 22483,
+              "commit": 21600,
+              "other": 1941
+            },
+            "16KiB": {
+              "source": 135026,
+              "output": 43200,
+              "lookup": 22094,
+              "commit": 21600,
+              "other": 1247
+            },
+            "32KiB": {
+              "source": 35467,
+              "output": 43200,
+              "lookup": 21693,
+              "commit": 21600,
+              "other": 285
+            }
+          }
+        },
+        "six-rotated": {
+          "instructions": 4605529,
+          "prepare_instructions": null,
+          "sha256": "1f1bcf350bd7c83d0f60182a5dd215a93b0daf51f17d8987ee008218bee6b5ad",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 195062,
+              "output": 43200,
+              "lookup": 22483,
+              "commit": 21600,
+              "other": 2194
+            },
+            "16KiB": {
+              "source": 127725,
+              "output": 43200,
+              "lookup": 22020,
+              "commit": 21600,
+              "other": 1452
+            },
+            "32KiB": {
+              "source": 37975,
+              "output": 43200,
+              "lookup": 21701,
+              "commit": 21600,
+              "other": 335
+            }
+          }
+        },
+        "twelve-rotated": {
+          "instructions": 4403573,
+          "prepare_instructions": null,
+          "sha256": "dc6ccc945e075bbbf125b41443059437f353f6539c29a4983580207781876c32",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 103987,
+              "output": 43200,
+              "lookup": 22275,
+              "commit": 21600,
+              "other": 1596
+            },
+            "16KiB": {
+              "source": 48766,
+              "output": 43200,
+              "lookup": 21812,
+              "commit": 21600,
+              "other": 740
+            },
+            "32KiB": {
+              "source": 14941,
+              "output": 43200,
+              "lookup": 21647,
+              "commit": 21600,
+              "other": 166
+            }
+          }
+        },
+        "four-axial": {
+          "instructions": 1768217,
+          "prepare_instructions": null,
+          "sha256": "fc61416760631462042892b9be3680cf863792d0e584b5ae38378ecc6bda3f1e",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 10978,
+              "output": 43200,
+              "lookup": 68,
+              "commit": 21600,
+              "other": 22
+            },
+            "16KiB": {
+              "source": 10936,
+              "output": 43200,
+              "lookup": 66,
+              "commit": 21600,
+              "other": 16
+            },
+            "32KiB": {
+              "source": 10807,
+              "output": 43200,
+              "lookup": 65,
+              "commit": 21600,
+              "other": 15
+            }
+          }
+        },
+        "four-rotated": {
+          "instructions": 3789881,
+          "prepare_instructions": null,
+          "sha256": "6a57f2c8eec4a7acee27d267a0193f25ba101e3db93968c63227d10a80fc94c9",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 103396,
+              "output": 43200,
+              "lookup": 22448,
+              "commit": 21600,
+              "other": 1977
+            },
+            "16KiB": {
+              "source": 47325,
+              "output": 43200,
+              "lookup": 21845,
+              "commit": 21600,
+              "other": 748
+            },
+            "32KiB": {
+              "source": 24065,
+              "output": 43200,
+              "lookup": 21647,
+              "commit": 21600,
+              "other": 142
+            }
+          }
+        }
+      }
+    },
+    "current": {
+      "source_sha256": {
+        "fx_mirror.c": "9828435da1da5cd5dd7633b8abb95b98f09ce932e0cf5357da4dd9edcd67a4b1",
+        "fx_mirror_raw.c": "46fbf963e72e848a243d000c9185d57f642b17fe6f769fddcce45a64ccf04820",
+        "fx_mirror_sensor.c": "1e14670dbed02440eeba9facf9bf5ce176fa3608bad35604cf0012fc55cb54da"
+      },
+      "preview": {
+        "six-default": {
+          "instructions": 3797763,
+          "prepare_instructions": null,
+          "sha256": "9798efd8f00a0e26a05aa45ba2891d8e8de41005a9776353c55c56f92adf2e57",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 30599,
+              "output": 21600,
+              "lookup": 26122,
+              "commit": 0,
+              "other": 100
+            },
+            "16KiB": {
+              "source": 30082,
+              "output": 21600,
+              "lookup": 22168,
+              "commit": 0,
+              "other": 44
+            },
+            "32KiB": {
+              "source": 29639,
+              "output": 21600,
+              "lookup": 22118,
+              "commit": 0,
+              "other": 44
+            }
+          }
+        },
+        "six-rotated": {
+          "instructions": 4391955,
+          "prepare_instructions": null,
+          "sha256": "1f1bcf350bd7c83d0f60182a5dd215a93b0daf51f17d8987ee008218bee6b5ad",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 31520,
+              "output": 21600,
+              "lookup": 26501,
+              "commit": 0,
+              "other": 110
+            },
+            "16KiB": {
+              "source": 29691,
+              "output": 21600,
+              "lookup": 22166,
+              "commit": 0,
+              "other": 45
+            },
+            "32KiB": {
+              "source": 28218,
+              "output": 21600,
+              "lookup": 22089,
+              "commit": 0,
+              "other": 45
+            }
+          }
+        },
+        "twelve-rotated": {
+          "instructions": 4262151,
+          "prepare_instructions": null,
+          "sha256": "dc6ccc945e075bbbf125b41443059437f353f6539c29a4983580207781876c32",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 26295,
+              "output": 21600,
+              "lookup": 25870,
+              "commit": 0,
+              "other": 108
+            },
+            "16KiB": {
+              "source": 22889,
+              "output": 21600,
+              "lookup": 22162,
+              "commit": 0,
+              "other": 45
+            },
+            "32KiB": {
+              "source": 17430,
+              "output": 21600,
+              "lookup": 22089,
+              "commit": 0,
+              "other": 45
+            }
+          }
+        },
+        "four-axial": {
+          "instructions": 1680375,
+          "prepare_instructions": null,
+          "sha256": "fc61416760631462042892b9be3680cf863792d0e584b5ae38378ecc6bda3f1e",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 10977,
+              "output": 21600,
+              "lookup": 65,
+              "commit": 0,
+              "other": 13
+            },
+            "16KiB": {
+              "source": 10936,
+              "output": 21600,
+              "lookup": 65,
+              "commit": 0,
+              "other": 13
+            },
+            "32KiB": {
+              "source": 10807,
+              "output": 21600,
+              "lookup": 65,
+              "commit": 0,
+              "other": 13
+            }
+          }
+        },
+        "four-rotated": {
+          "instructions": 3784835,
+          "prepare_instructions": null,
+          "sha256": "6a57f2c8eec4a7acee27d267a0193f25ba101e3db93968c63227d10a80fc94c9",
+          "callee_saved_registers_preserved": true,
+          "modeled_cache_misses": {
+            "8KiB": {
+              "source": 27406,
+              "output": 21600,
+              "lookup": 25751,
+              "commit": 0,
+              "other": 101
+            },
+            "16KiB": {
+              "source": 26788,
+              "output": 21600,
+              "lookup": 22134,
+              "commit": 0,
+              "other": 45
+            },
+            "32KiB": {
+              "source": 26300,
+              "output": 21600,
+              "lookup": 22125,
+              "commit": 0,
+              "other": 45
+            }
+          }
+        }
+      }
+    }
+  },
+  "comparison": {
+    "preview": {
+      "six-default": {
+        "pixel_identical": true,
+        "ARM_instruction_reduction": 1.0222673189453897,
+        "modeled_cache_miss_reduction": {
+          "8KiB": 3.303553895002614,
+          "16KiB": 3.0200963542371504,
+          "32KiB": 1.6654405253334423
+        }
+      },
+      "six-rotated": {
+        "pixel_identical": true,
+        "ARM_instruction_reduction": 1.0486284581695395,
+        "modeled_cache_miss_reduction": {
+          "8KiB": 3.5687373794383617,
+          "16KiB": 2.9386547304835244,
+          "32KiB": 1.7346425394707583
+        }
+      },
+      "twelve-rotated": {
+        "pixel_identical": true,
+        "ARM_instruction_reduction": 1.0331808985650672,
+        "modeled_cache_miss_reduction": {
+          "8KiB": 2.6079623137005403,
+          "16KiB": 2.0408720163128224,
+          "32KiB": 1.6603557648289844
+        }
+      },
+      "four-axial": {
+        "pixel_identical": true,
+        "ARM_instruction_reduction": 1.0522752361823997,
+        "modeled_cache_miss_reduction": {
+          "8KiB": 2.3233195529015465,
+          "16KiB": 2.3247071809652295,
+          "32KiB": 2.3299061105125443
+        }
+      },
+      "four-rotated": {
+        "pixel_identical": true,
+        "ARM_instruction_reduction": 1.0013332153185013,
+        "modeled_cache_miss_reduction": {
+          "8KiB": 2.5731518341393036,
+          "16KiB": 1.909079314693837,
+          "32KiB": 1.5791922363350934
+        }
+      }
+    }
+  },
+  "comment_only_rebuild": {
+    "ARM_elf_byte_identical": true,
+    "elf_sha256": "b2fc8e141ba93d19a47bcda6e2e4bdad3d4c42615ad0b90d084dc8bbc9330454",
+    "source_sha256": "7de1acab9d8eba0bcd5890a7a37c72c7f529f2964dfbb0e345319297d1b2587e"
+  }
+}

@@ -1,0 +1,14 @@
+✔ 4 segments: closed mapping, original wedge, bounds and RGBA (86.4153ms)
+✔ 6 segments: closed mapping, original wedge, bounds and RGBA (50.1371ms)
+✔ 12 segments: closed mapping, original wedge, bounds and RGBA (44.2597ms)
+✔ four-way centered geometry has independent exact reflection oracle (4.7063ms)
+✔ reject invalid geometry and aliased buffers (0.8763ms)
+✔ browser coordinates match the compiled C Bayer mapper fixtures (3.5517ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 335.2718

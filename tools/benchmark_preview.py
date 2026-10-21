@@ -13,13 +13,13 @@ def compile_variant(variant,source,folder,arm):
     run(BASE+['gcc',*flags,source,'tests/preview_benchmark.c','-o',folder+'/host'])
     if arm:
         run(BASE+['arm-none-eabi-gcc',*flags,'-march=armv5te','-marm','-mlong-calls','-ffreestanding','-fno-builtin','-fno-optimize-sibling-calls','-fno-tree-loop-distribute-patterns','-nostdlib','-DPREVIEW_ARM',source,'tests/preview_benchmark.c','-Wl,-Ttext=0x10000,--entry=preview_arm_test','-o',folder+'/preview.elf','-lgcc'])
-def arm_runner(path):
+def arm_runner(path,cache=False):
     import unicorn as U
     from unicorn import arm_const as A
     from elftools.elf.elffile import ELFFile
     cpu=U.Uc(U.UC_ARCH_ARM,U.UC_MODE_ARM)
     cpu.mem_map(0x10000,0x100000)
-    for address,size in [(0x200000,0x100000),(0x300000,0x100000),(0x400000,0x100000),(0x500000,0x1000),(0x600000,0x10000)]:cpu.mem_map(address,size)
+    for address,size in [(0x200000,0x100000),(0x300000,0x100000),(0x400000,0x100000),(0x500000,0x1000),(0x600000,0x10000),(0x700000,0x100000)]:cpu.mem_map(address,size)
     with path.open('rb') as f:
         elf=ELFFile(f);entry=elf.header['e_entry']
         for section in elf.iter_sections():
@@ -28,20 +28,43 @@ def arm_runner(path):
     count=[0];counting=[False]
     def block(uc,pc,size,data):
         if counting[0]:count[0]+=size//4
-    cpu.hook_add(U.UC_HOOK_BLOCK,block)
+    caches={}
+    def memory(uc,access,address,size,value,data):
+        if not counting[0]:return
+        category='source' if 0x200000<=address<0x300000 else 'output' if 0x300000<=address<0x400000 else 'lookup' if 0x400000<=address<0x500000 else 'commit' if 0x700000<=address<0x800000 else 'other'
+        for kib,model in caches.items():
+            sets=kib*1024//(32*4)
+            for line in range(address//32,(address+size-1)//32+1):
+                ways=model['sets'][line%sets]
+                if line in ways:ways.remove(line)
+                else:
+                    model['misses'][category]+=1
+                    if len(ways)==4:ways.pop(0)
+                ways.append(line)
     preserved=[A.UC_ARM_REG_R4,A.UC_ARM_REG_R5,A.UC_ARM_REG_R6,A.UC_ARM_REG_R7,A.UC_ARM_REG_R8,A.UC_ARM_REG_R9,A.UC_ARM_REG_R10,A.UC_ARM_REG_R11]
     def call(config,measure=False):
+        caches.clear()
+        if cache:
+            for kib in [8,16,32]:caches[kib]={'sets':[[] for _ in range(kib*1024//128)],'misses':dict.fromkeys(['source','output','lookup','commit','other'],0)}
         cpu.mem_write(0x500000,struct.pack('<5I',*config));cpu.reg_write(A.UC_ARM_REG_CPSR,0x10)
         for index,reg in enumerate(preserved):cpu.reg_write(reg,0xabc00000+index)
         for reg,value in [(A.UC_ARM_REG_R0,0x200000),(A.UC_ARM_REG_R1,0x300000),(A.UC_ARM_REG_R2,0x400000),(A.UC_ARM_REG_R3,0x500000),(A.UC_ARM_REG_SP,0x60ff00),(A.UC_ARM_REG_LR,0xffff0)]:cpu.reg_write(reg,value)
-        count[0]=0;counting[0]=measure;cpu.emu_start(entry,0xffff0,count=200000000);counting[0]=False
+        count[0]=0;counting[0]=measure
+        block_hook=cpu.hook_add(U.UC_HOOK_BLOCK,block) if measure else None
+        memory_hook=cpu.hook_add(U.UC_HOOK_MEM_READ|U.UC_HOOK_MEM_WRITE,memory) if cache and config[0]==1 else None
+        cpu.emu_start(entry,0xffff0,count=200000000);counting[0]=False
+        if memory_hook is not None:cpu.hook_del(memory_hook)
+        if block_hook is not None:cpu.hook_del(block_hook)
         assert cpu.reg_read(A.UC_ARM_REG_PC)==0xffff0
         assert [cpu.reg_read(r) for r in preserved]==[0xabc00000+i for i in range(8)]
         return cpu.reg_read(A.UC_ARM_REG_R0),count[0]
     def execute(config):
-        result,prepare_instructions=call([0,*config],True);assert result==0
+        result,prepare_instructions=call([0,*config],not cache);assert result==0
         result,instructions=call([1,*config],True);assert result==0
-        return {'instructions':instructions,'prepare_instructions':prepare_instructions,'sha256':hashlib.sha256(bytes(cpu.mem_read(0x300000,691200))).hexdigest(),'callee_saved_registers_preserved':True}
+        result={'instructions':instructions,'prepare_instructions':prepare_instructions,'sha256':hashlib.sha256(bytes(cpu.mem_read(0x300000,691200))).hexdigest(),'callee_saved_registers_preserved':True}
+        if cache:result['modeled_cache_misses']={str(kib)+'KiB':model['misses'] for kib,model in caches.items()}
+        if cache:result['prepare_instructions']=None
+        return result
     return execute
 def main():
     p=argparse.ArgumentParser();p.add_argument('--variant',choices=['baseline','current','both'],default='both');p.add_argument('--host-only',action='store_true');args=p.parse_args()

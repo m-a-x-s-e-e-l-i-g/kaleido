@@ -1,0 +1,1 @@
+Native camera: no per-frame scratch copy, half lock, rejected-frame fallback, scratch exclusion, stop, reserve and Canon review PASS

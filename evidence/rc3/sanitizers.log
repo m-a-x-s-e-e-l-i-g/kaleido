@@ -1,0 +1,4 @@
+FULL_RAW segments=4 angle=17 center=500,500 cells=4478976 scratch=895796 seconds=0.858 mismatches=0
+FULL_RAW segments=6 angle=17 center=500,500 cells=4478976 scratch=895796 seconds=0.735 mismatches=0
+FULL_RAW segments=12 angle=17 center=500,500 cells=4478976 scratch=895796 seconds=0.747 mismatches=0
+Native checks: 155857624; failures: 0

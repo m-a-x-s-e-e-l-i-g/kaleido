@@ -128,7 +128,7 @@ static struct menu_entry entries[]={
 static unsigned int init(void)
 {
     if(!is_camera("EOSM","2.0.2"))return 1;
-    fx_camera_init();if(!fx_native_capture_mode()||!fx_capture_scratch_configure((2592u*1728u+4u)/5u))return 1;
+    fx_camera_init();if(!fx_native_capture_mode()||!fx_capture_scratch_prefer((2592u*1728u+4u)/5u,2u*1024u*1024u))return 1;
     kaleido_settings_load(&preferences);
     fx_params p=kaleido_settings_params(&preferences);fx_controls(&p);
     fx_canon_gui(0);shutting_down=finished=0;attempted=dirty=save_error=0;started_ms=get_ms_clock();

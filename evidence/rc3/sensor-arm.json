@@ -1,0 +1,121 @@
+{
+  "baseline_revision": "6b6439c",
+  "sensor_fixture": [
+    320,
+    212
+  ],
+  "active_pixels": [
+    304,
+    204
+  ],
+  "scratch_scaled_to_full_sensor": true,
+  "camera_capture_time_verified": false,
+  "variants": {
+    "baseline": {
+      "six-default": {
+        "instructions": 33996516,
+        "prepare_instructions": 87268,
+        "sha256": "9320806fe42e29dc57e49a7d82a2f1bfe2948a32a0a62b70af20ecc3a8bb2117",
+        "callee_saved_registers_preserved": true
+      },
+      "six-rotated": {
+        "instructions": 37674503,
+        "prepare_instructions": 87268,
+        "sha256": "397c79e9230ea36338ca762ebebb2df48819ba233aec2d09e69faf8965ca051c",
+        "callee_saved_registers_preserved": true
+      },
+      "twelve-rotated": {
+        "instructions": 39919354,
+        "prepare_instructions": 87806,
+        "sha256": "2b9af7239f592ae2f5b8b7857ca17f56af7c9c750dcbd5b4f87dcd4a5e7da3b9",
+        "callee_saved_registers_preserved": true
+      },
+      "four-axial": {
+        "instructions": 32933840,
+        "prepare_instructions": 87047,
+        "sha256": "ded4011715a974eef36c9043cd141d8c09dc8eb305bb1264fbb2b30b5d25dd1d",
+        "callee_saved_registers_preserved": true
+      },
+      "four-rotated": {
+        "instructions": 32904136,
+        "prepare_instructions": 87047,
+        "sha256": "47f15486e520c03d5a9466e6c4bb7589c43e643e0883676e71d93dbfee4006fa",
+        "callee_saved_registers_preserved": true
+      },
+      "center-extreme": {
+        "instructions": 67282573,
+        "prepare_instructions": 87268,
+        "sha256": "e8f3eec618c6494bfd2f6f847da25502788e305ca174573843d2323929de65ee",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "current": {
+      "six-default": {
+        "instructions": 6798784,
+        "prepare_instructions": 87268,
+        "sha256": "9320806fe42e29dc57e49a7d82a2f1bfe2948a32a0a62b70af20ecc3a8bb2117",
+        "callee_saved_registers_preserved": true
+      },
+      "six-rotated": {
+        "instructions": 7120935,
+        "prepare_instructions": 87268,
+        "sha256": "397c79e9230ea36338ca762ebebb2df48819ba233aec2d09e69faf8965ca051c",
+        "callee_saved_registers_preserved": true
+      },
+      "twelve-rotated": {
+        "instructions": 8162203,
+        "prepare_instructions": 87806,
+        "sha256": "2b9af7239f592ae2f5b8b7857ca17f56af7c9c750dcbd5b4f87dcd4a5e7da3b9",
+        "callee_saved_registers_preserved": true
+      },
+      "four-axial": {
+        "instructions": 345930,
+        "prepare_instructions": 87047,
+        "sha256": "ded4011715a974eef36c9043cd141d8c09dc8eb305bb1264fbb2b30b5d25dd1d",
+        "callee_saved_registers_preserved": true
+      },
+      "four-rotated": {
+        "instructions": 6657693,
+        "prepare_instructions": 87047,
+        "sha256": "47f15486e520c03d5a9466e6c4bb7589c43e643e0883676e71d93dbfee4006fa",
+        "callee_saved_registers_preserved": true
+      },
+      "center-extreme": {
+        "instructions": 44732500,
+        "prepare_instructions": 87268,
+        "sha256": "e8f3eec618c6494bfd2f6f847da25502788e305ca174573843d2323929de65ee",
+        "callee_saved_registers_preserved": true
+      }
+    }
+  },
+  "comparison": {
+    "six-default": {
+      "pixel_identical": true,
+      "ARM_instruction_reduction": 5.000381832986605
+    },
+    "six-rotated": {
+      "pixel_identical": true,
+      "ARM_instruction_reduction": 5.290668009186996
+    },
+    "twelve-rotated": {
+      "pixel_identical": true,
+      "ARM_instruction_reduction": 4.890757311475836
+    },
+    "four-axial": {
+      "pixel_identical": true,
+      "ARM_instruction_reduction": 95.20376954875263
+    },
+    "four-rotated": {
+      "pixel_identical": true,
+      "ARM_instruction_reduction": 4.942272946499636
+    },
+    "center-extreme": {
+      "pixel_identical": true,
+      "ARM_instruction_reduction": 1.5041093835578159
+    }
+  },
+  "current_source_sha256": {
+    "fx_mirror_sensor.c": "e42aa2f6a95c8f95cfdf5bc647103b12ea189a2e3a7754c0ab75b4513c5fda56",
+    "fx_mirror_raw.c": "46fbf963e72e848a243d000c9185d57f642b17fe6f769fddcce45a64ccf04820"
+  }
+}

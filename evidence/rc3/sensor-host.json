@@ -1,0 +1,190 @@
+{
+  "baseline_revision": "6b6439c",
+  "camera_FPS_verified": false,
+  "camera_capture_time_verified": false,
+  "cache_model": "cold 4-way LRU, 32-byte lines, write allocate; 8/16/32 KiB; no timing model",
+  "variants": {
+    "baseline": {
+      "source_sha256": {
+        "fx_mirror.c": "a55250469e758be9b2a7bddec7a1700f4e715e9966a642eb5bc37c98be964c35",
+        "fx_mirror_raw.c": "0d7e5be00aec3393b1420e0f6fe41d6a8b9465e84cbfa52182ab8adcac63a41d",
+        "fx_mirror_sensor.c": "323841a1533a155b34ea808f3620b8989b9a298a6509a13d794e160295fbf19d"
+      },
+      "sensor": {
+        "six-default": {
+          "ms": 1122.566,
+          "saved_cells": 0,
+          "graph_fallback": 0,
+          "scratch_bytes": 895796,
+          "result": 0,
+          "median_host_ms": 1122.566,
+          "samples_host_ms": [
+            1978.289,
+            1119.163,
+            1122.566
+          ],
+          "sha256": "8500a74535ec83712c147c3c706c4f249bb473b8289aacb88eb7956e26539429"
+        },
+        "six-rotated": {
+          "ms": 2232.865,
+          "saved_cells": 0,
+          "graph_fallback": 0,
+          "scratch_bytes": 895796,
+          "result": 0,
+          "median_host_ms": 1733.913,
+          "samples_host_ms": [
+            1321.014,
+            1733.913,
+            2232.865
+          ],
+          "sha256": "256daf30dc97e72dccc4b673e493b5f716214249424c6e46d3d7ef5ae7b1f6f6"
+        },
+        "twelve-rotated": {
+          "ms": 1805.912,
+          "saved_cells": 0,
+          "graph_fallback": 0,
+          "scratch_bytes": 895796,
+          "result": 0,
+          "median_host_ms": 1805.912,
+          "samples_host_ms": [
+            1642.513,
+            1852.381,
+            1805.912
+          ],
+          "sha256": "44c575693729ec7e76b5189d318d1f13ca7f3efbdfe22ea96c7da7f84d5d4185"
+        },
+        "four-axial": {
+          "ms": 1035.011,
+          "saved_cells": 0,
+          "graph_fallback": 0,
+          "scratch_bytes": 895796,
+          "result": 0,
+          "median_host_ms": 1058.314,
+          "samples_host_ms": [
+            1058.314,
+            1191.892,
+            1035.011
+          ],
+          "sha256": "edabbd46a0a49f0e1f143c3a97e5e316f5d4384e1e6609aeca18e2184d64ccab"
+        },
+        "four-rotated": {
+          "ms": 2172.942,
+          "saved_cells": 0,
+          "graph_fallback": 0,
+          "scratch_bytes": 895796,
+          "result": 0,
+          "median_host_ms": 2172.942,
+          "samples_host_ms": [
+            1908.103,
+            3988.014,
+            2172.942
+          ],
+          "sha256": "be122ed79cd2f6c6226e906fafd633887adcab80023c4cc270ace432e13a7b87"
+        }
+      }
+    },
+    "current": {
+      "source_sha256": {
+        "fx_mirror.c": "7de1acab9d8eba0bcd5890a7a37c72c7f529f2964dfbb0e345319297d1b2587e",
+        "fx_mirror_raw.c": "46fbf963e72e848a243d000c9185d57f642b17fe6f769fddcce45a64ccf04820",
+        "fx_mirror_sensor.c": "e42aa2f6a95c8f95cfdf5bc647103b12ea189a2e3a7754c0ab75b4513c5fda56"
+      },
+      "sensor": {
+        "six-default": {
+          "ms": 614.754,
+          "saved_cells": 0,
+          "graph_fallback": 0,
+          "scratch_bytes": 2097152,
+          "result": 0,
+          "median_host_ms": 450.581,
+          "samples_host_ms": [
+            351.159,
+            450.581,
+            614.754
+          ],
+          "sha256": "8500a74535ec83712c147c3c706c4f249bb473b8289aacb88eb7956e26539429"
+        },
+        "six-rotated": {
+          "ms": 373.856,
+          "saved_cells": 124453,
+          "graph_fallback": 0,
+          "scratch_bytes": 2097152,
+          "result": 0,
+          "median_host_ms": 373.856,
+          "samples_host_ms": [
+            445.008,
+            331.892,
+            373.856
+          ],
+          "sha256": "256daf30dc97e72dccc4b673e493b5f716214249424c6e46d3d7ef5ae7b1f6f6"
+        },
+        "twelve-rotated": {
+          "ms": 374.398,
+          "saved_cells": 2303,
+          "graph_fallback": 0,
+          "scratch_bytes": 2097152,
+          "result": 0,
+          "median_host_ms": 675.756,
+          "samples_host_ms": [
+            1170.952,
+            675.756,
+            374.398
+          ],
+          "sha256": "44c575693729ec7e76b5189d318d1f13ca7f3efbdfe22ea96c7da7f84d5d4185"
+        },
+        "four-axial": {
+          "ms": 38.466,
+          "saved_cells": 0,
+          "graph_fallback": 0,
+          "scratch_bytes": 2097152,
+          "result": 0,
+          "median_host_ms": 32.045,
+          "samples_host_ms": [
+            32.045,
+            19.734,
+            38.466
+          ],
+          "sha256": "edabbd46a0a49f0e1f143c3a97e5e316f5d4384e1e6609aeca18e2184d64ccab"
+        },
+        "four-rotated": {
+          "ms": 402.935,
+          "saved_cells": 0,
+          "graph_fallback": 0,
+          "scratch_bytes": 2097152,
+          "result": 0,
+          "median_host_ms": 402.935,
+          "samples_host_ms": [
+            321.578,
+            424.735,
+            402.935
+          ],
+          "sha256": "be122ed79cd2f6c6226e906fafd633887adcab80023c4cc270ace432e13a7b87"
+        }
+      }
+    }
+  },
+  "comparison": {
+    "sensor": {
+      "six-default": {
+        "pixel_identical": true,
+        "host_speedup": 2.4913744698511477
+      },
+      "six-rotated": {
+        "pixel_identical": true,
+        "host_speedup": 4.637916737995378
+      },
+      "twelve-rotated": {
+        "pixel_identical": true,
+        "host_speedup": 2.6724320612765555
+      },
+      "four-axial": {
+        "pixel_identical": true,
+        "host_speedup": 33.02586987049462
+      },
+      "four-rotated": {
+        "pixel_identical": true,
+        "host_speedup": 5.392785436857062
+      }
+    }
+  }
+}

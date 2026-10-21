@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later. Same component on host and ARM. */
 #include "fx_mirror.h"
+#include "fx_copy.h"
 #ifdef PREVIEW_ARM
 void*memcpy(void*d,const void*s,size_t n)
 {unsigned char*a=d;const unsigned char*b=s;while(n--)*a++=*b++;return d;}
@@ -13,7 +14,11 @@ unsigned preview_arm_test(void*source,void*out,void*work,const unsigned*config)
     size_t bytes=fx_mirror_size(720,480);
     if(config[0]==2)return (unsigned)bytes;
     if(!config[0])return fx_mirror_prepare(work,bytes,&p,720,480,1440,0);
-    return fx_mirror_render(source,out,691200,work,bytes,&p,720,480,1440);
+    unsigned result=fx_mirror_render(source,out,691200,work,bytes,&p,720,480,1440);
+#ifdef PREVIEW_COMMIT
+    if(!result)fx_copy_cpu((void*)0x700000,out,691200);
+#endif
+    return result;
 }
 #else
 #include <stdio.h>

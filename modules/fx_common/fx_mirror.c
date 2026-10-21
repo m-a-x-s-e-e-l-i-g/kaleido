@@ -215,8 +215,8 @@ static inline __attribute__((always_inline)) uint32_t gather_pair(const unsigned
      * as average(). Y samples retain their exact original mapping. */
     const uint32_t mask=0x00ff00ffu,sign=0x00800080u;
     uint32_t uv=((((first^sign)&mask)+((second^sign)&mask))>>1)&mask;
-    uint32_t y0=(first>>((code&1)*16))&0x0000ff00u;
-    uint32_t y1=(second<<((code&2)?0:16))&0xff000000u;
+    uint32_t y0=(code&1)?(first>>16)&0x0000ff00u:first&0x0000ff00u;
+    uint32_t y1=(code&2)?second&0xff000000u:(second&0x0000ff00u)<<16;
     return (uv^sign)|y0|y1;
 }
 int fx_mirror_render(const void*source,void*destination,size_t capacity,const void*w,size_t n,
@@ -232,20 +232,29 @@ int fx_mirror_render(const void*source,void*destination,size_t capacity,const vo
 #if __BYTE_ORDER__ != __ORDER_LITTLE_ENDIAN__
     aligned=0;
 #endif
-    for(unsigned y=0;y<height;y++){
-      if(aligned&&m->mode==3){
-        const uint32_t*codes=(const uint32_t*)(m->runs+height)+y*(width/2);
-        pixel32*out=(pixel32*)(dst+(size_t)y*pitch);
-        unsigned pairs=width/2,x=0;
-        for(;x+4<=pairs;x+=4){
-            out[x]=gather_pair(src,codes[x],m->lookup_delta);
-            out[x+1]=gather_pair(src,codes[x+1],m->lookup_delta);
-            out[x+2]=gather_pair(src,codes[x+2],m->lookup_delta);
-            out[x+3]=gather_pair(src,codes[x+3],m->lookup_delta);
+    if(aligned&&m->mode==3){
+        /* Pinned ARMv5 cache maintenance assumes 8 KiB. A raster row scatters reads
+         * across hundreds of source rows and evicts them before the next
+         * output row. Small tiles retain the same rotated source neighborhood
+         * while filling adjacent rows. Full resolution and exact UYVY remain. */
+        unsigned pairs=width/2;
+        for(unsigned ty=0;ty<height;ty+=16)for(unsigned tx=0;tx<pairs;tx+=16){
+            unsigned bottom=ty+16<height?ty+16:height,end=tx+16<pairs?tx+16:pairs;
+            for(unsigned y=ty;y<bottom;y++){
+                const uint32_t*codes=(const uint32_t*)(m->runs+height)+y*pairs;
+                pixel32*out=(pixel32*)(dst+(size_t)y*pitch);unsigned x=tx;
+                for(;x+4<=end;x+=4){
+                    out[x]=gather_pair(src,codes[x],m->lookup_delta);
+                    out[x+1]=gather_pair(src,codes[x+1],m->lookup_delta);
+                    out[x+2]=gather_pair(src,codes[x+2],m->lookup_delta);
+                    out[x+3]=gather_pair(src,codes[x+3],m->lookup_delta);
+                }
+                for(;x<end;x++)out[x]=gather_pair(src,codes[x],m->lookup_delta);
+            }
         }
-        for(;x<pairs;x++)out[x]=gather_pair(src,codes[x],m->lookup_delta);
-        continue;
-      }
+        return FX_OK;
+    }
+    for(unsigned y=0;y<height;y++){
       if(aligned&&m->mode==1&&m->fast_count){
         unsigned x=0;const unsigned char*row=src+m->y[y];pixel32*out=(pixel32*)(dst+(size_t)y*pitch);
         for(unsigned i=0;i<m->fast_count;i++){

@@ -23,6 +23,7 @@
 #define fx_native_capture_mode FX(native_capture_mode)
 #define fx_private_cpu_heap_mode FX(private_cpu_heap_mode)
 #define fx_capture_scratch_configure FX(capture_scratch_configure)
+#define fx_capture_scratch_prefer FX(capture_scratch_prefer)
 #define fx_capture_scratch_acquire FX(capture_scratch_acquire)
 #define fx_capture_scratch_release FX(capture_scratch_release)
 extern int FX(active);
@@ -56,6 +57,9 @@ typedef struct {void *data;size_t size;unsigned generation;} fx_capture_scratch;
  * No module opts in automatically. These calls neither access Canon sensor
  * memory nor establish its ownership, coherence or a processing deadline. */
 int fx_capture_scratch_configure(size_t bytes);
+/* Optional faster-path capacity. Keep the existing minimum/reserve and retry
+ * that minimum if the preferred arena does not fit or cannot be allocated. */
+int fx_capture_scratch_prefer(size_t minimum,size_t preferred);
 /* Nonblocking, no allocation/IO: acquire only between renders/preparations,
  * after a delivered frame. Failure leaves out unchanged. A successful lease
  * invalidates committed preview pixels and excludes even stale filter calls.

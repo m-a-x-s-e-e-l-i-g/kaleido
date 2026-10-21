@@ -183,8 +183,8 @@ static unsigned patch_test(void)
     if(!fx_capture_scratch_acquire(&scratch))return MG_PATCH_PREP;
     unsigned error=patch_guard();
     if(error){fx_capture_scratch_release(&scratch);return error;}
-    /* Preflight completes before the first write. Dependency peeling preserves
-     * original source cells, including rotated mappings with cycles.
+    /* Preflight completes before the first write. Sparse snapshots or the
+     * graph fallback preserve original source cells, including cycles.
      * Once sensor writes begin, finish without yielding or cancellation. */
     unsigned began=get_us_clock();r->patch_started=1;
     /* OFF/shutdown may cancel the dry planning passes. The backend detaches

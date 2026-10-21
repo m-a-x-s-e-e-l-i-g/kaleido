@@ -15,7 +15,14 @@ static int sin_deg(int n)
 static int cos_deg(int n){return sin_deg(n+90);}
 static int rounded(int n){return n>=0?(n+16384)/32768:-((-n+16384)/32768);}
 static unsigned edge(int v,unsigned extent)
-{if(extent<=1)return 0;int period=(int)(extent-1)*2;v%=period;if(v<0)v+=period;return (unsigned)v<extent?(unsigned)v:(unsigned)(period-v);}
+{
+    if(extent<=1)return 0;
+    /* Reflection is even. Nearly every prepared coordinate needs at most one
+     * fold; avoid the ARM software division on every sensor coordinate. */
+    unsigned n=(unsigned)(v<0?-v:v),period=(extent-1)*2;
+    if(n>=period)n%=period;
+    return n<extent?n:period-n;
+}
 static int valid_frame(const gl_frame*f)
 {
     if(!f||!f->data||f->width<2||f->width>8192||f->height<2||f->height>8192||

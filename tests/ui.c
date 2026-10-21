@@ -21,6 +21,7 @@ void menu_remove(const char*a,struct menu_entry*b,unsigned c){(void)a;(void)b;(v
 void fx_camera_init(void){memset(&report,0,sizeof(report));kaleido_active=stopping=0;}
 int fx_native_capture_mode(void){return 1;}
 int fx_capture_scratch_configure(size_t n){assert(n==895796);return 1;}
+int fx_capture_scratch_prefer(size_t minimum,size_t preferred){assert(minimum==895796&&preferred==2097152);return 1;}
 int fx_controls(const fx_params*p){assert(p->value[0]<360&&(p->value[1]==4||p->value[1]==6||p->value[1]==12));requested=*p;return 1;}
 void fx_canon_gui(unsigned s){(void)s;}
 void fx_half(int h){(void)h;}

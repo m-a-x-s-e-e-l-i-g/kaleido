@@ -28,12 +28,15 @@ FX_API int fx_mirror_sensor_pack(const fx_mirror_raw*m,void*destination,size_t c
  * because a partially changed Canon buffer must never resume compression.
  * This is not connected to a camera callback or the read-only QR probe. */
 FX_API int fx_mirror_sensor_axial(const fx_mirror_raw*m,void*owned,size_t capacity);
-/* All prepared Mirror geometries, with five three-state cells per scratch
- * byte: ceil(active 2x2 Bayer cells / 5). No full sensor copy, allocation, IO
- * or Canon calls. Source cells are a functional graph: peel all consumers
+/* All prepared Mirror geometries; minimum ceil(active 2x2 Bayer cells / 5).
+ * First try a bitset and ranked snapshots of only referenced non-fixed cells.
+ * Constant-sector scans then write output in one pass. More caller-owned
+ * scratch fits more rotated/moved-center cases; no full sensor snapshot.
+ * If snapshots do not fit, use five three-state graph cells per scratch byte:
+ * source cells are a functional graph, so peel all consumers
  * with no remaining dependents,
  * then rotate the residual cycles using one four-sample temporary.
- * A complete dry pass validates closed mappings and cancellation BEFORE the
+ * Complete planning validates closed mappings and cancellation BEFORE the
  * first sensor write. After writing starts, finish without consulting stop.
  * owned must equal source.data (coherent Canon14 CPU alias) and be exclusively
  * owned until completion. Context and scratch must remain private/immutable
