@@ -10,7 +10,7 @@ This is the first public release, following Max Seelig's successful physical-cam
 
 Download **KALEIDO-0.1.0-EOSM202.zip** below. Bursts, video, remote triggers and long exposures are outside the supported workflow.
 
-[Installation guide](https://github.com/m-a-x-s-e-e-l-i-g/kaleido/blob/main/docs/installation.md) · [Source](https://github.com/m-a-x-s-e-e-l-i-g/kaleido) · [Report an issue](https://github.com/m-a-x-s-e-e-l-i-g/kaleido/issues)
+[Website & playground](https://kaleido-eosm.netlify.app/) · [Installation guide](https://github.com/m-a-x-s-e-e-l-i-g/kaleido/blob/main/docs/installation.md) · [Source](https://github.com/m-a-x-s-e-e-l-i-g/kaleido) · [Report an issue](https://github.com/m-a-x-s-e-e-l-i-g/kaleido/issues)
 
 By Max Seelig · [MAXmade](https://maxmade.nl/). GPL-2.0-or-later.
 

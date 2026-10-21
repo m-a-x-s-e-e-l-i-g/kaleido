@@ -2,6 +2,8 @@
 
 **Turn the ordinary around.** A standalone kaleidoscope module for the original Canon EOS M, by **Max Seelig ([MAXmade](https://maxmade.nl/))**.
 
+[Website & interactive playground](https://kaleido-eosm.netlify.app/) · [Download 0.1.0](https://github.com/m-a-x-s-e-e-l-i-g/kaleido/releases/tag/v0.1.0) · [Installation](docs/installation.md)
+
 One wedge becomes a pattern: **4, 6 or 12 segments**, a full **360° rotation control**, and a movable center. Compose in LiveView; the implementation includes a whole-Bayer-cell native Canon CR2 capture path. Kaleido has its own `kaleido.mo`, Shoot menu and checked preference files. It derives from [Mirror Worlds](https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds).
 
 **[First public release · 0.1.0](https://github.com/m-a-x-s-e-e-l-i-g/kaleido/releases/tag/v0.1.0).** Max Seelig reports that rc4 passed testing on the physical EOS M and works well. Version 0.1.0 retains that implementation; the build verifies that only the version label and module documentation changed. [Camera test report](docs/camera-test-report.json) · [Release notes](docs/release-0.1.0.md).
