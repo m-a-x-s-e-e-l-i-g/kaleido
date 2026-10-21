@@ -1,5 +1,6 @@
 import {createMap,render} from './kaleido.mjs';
-const $=id=>document.getElementById(id),canvas=$('preview'),ctx=canvas.getContext('2d'),width=720,height=480;
+// Keep the full Mirror Worlds source resolution in the preview and PNG export.
+const $=id=>document.getElementById(id),canvas=$('preview'),ctx=canvas.getContext('2d'),{width,height}=canvas;
 let settings={segments:6,rotation:0,centerX:500,centerY:500},source,output,map,queued=false,original=false,uploadGeneration=0;
 function update(){
   $('rotation-value').value=`${settings.rotation}°`;
