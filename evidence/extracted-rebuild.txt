@@ -1,0 +1,4 @@
+Extracted release source rebuilt with a fresh pinned upstream checkout.
+Official core archive checksum re-used from the verified local cache.
+Result: byte-identical to packaged kaleido.mo
+SHA256 e39dae18acabf4ad854123e017817aecc1ace55fb48e1367d3eb794e30b4ecc1

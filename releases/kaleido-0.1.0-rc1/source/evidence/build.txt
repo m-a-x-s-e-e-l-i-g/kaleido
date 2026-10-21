@@ -1,0 +1,5 @@
+Exact installed-core imports: PASS (58 symbols)
+Repeated final module build: byte-identical
+SHA256 e39dae18acabf4ad854123e017817aecc1ace55fb48e1367d3eb794e30b4ecc1
+No defined-symbol collision with Mirror Worlds 0.2.0
+Camera load/capture remain unverified

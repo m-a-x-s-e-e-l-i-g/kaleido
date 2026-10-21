@@ -1,0 +1,4 @@
+Interactive HTTP playground: segments, 359-degree rotation, center shift, compare/reset, local image import, PNG export PASS
+Desktop and 390px mobile visually checked; no horizontal overflow
+Standalone HTML: embedded JS/fonts/image; no runtime imports; JavaScript syntax PASS
+Direct file:// execution was not tested: IAB permits HTTP(S) only

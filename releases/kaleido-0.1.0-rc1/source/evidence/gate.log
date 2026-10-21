@@ -1,0 +1,10 @@
+shot=0 phase=4 error=0 started=1 done=1 changed=704 mismatches=0 held=102200
+shot=1 phase=4 error=0 started=1 done=1 changed=742 mismatches=0 held=102200
+shot=2 phase=4 error=0 started=1 done=1 changed=798 mismatches=0 held=102200
+Kaleido capture repeat: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture caller: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture scratch: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture cancel: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture shutdown: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture overlap: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture planning-cancel: PASS (actual sensor backend/handoff, synthetic transport)

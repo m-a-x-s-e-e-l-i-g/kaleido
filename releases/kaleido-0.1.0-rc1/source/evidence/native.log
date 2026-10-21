@@ -1,0 +1,14 @@
+FULL_RAW segments=4 angle=17 center=500,500 cells=4478976 scratch=895796 seconds=2.483 mismatches=0
+FULL_RAW segments=6 angle=17 center=500,500 cells=4478976 scratch=895796 seconds=4.518 mismatches=0
+FULL_RAW segments=12 angle=17 center=500,500 cells=4478976 scratch=895796 seconds=3.584 mismatches=0
+Native checks: 149560153; failures: 0
+Settings: round-trip, torn-write fallback, recovery and invalid controls PASS
+shot=0 phase=4 error=0 started=1 done=1 changed=704 mismatches=0 held=102200
+shot=1 phase=4 error=0 started=1 done=1 changed=742 mismatches=0 held=102200
+shot=2 phase=4 error=0 started=1 done=1 changed=798 mismatches=0 held=102200
+Kaleido capture repeat: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture caller: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture scratch: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture cancel: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture shutdown: PASS (actual sensor backend/handoff, synthetic transport)
+Kaleido capture overlap: PASS (actual sensor backend/handoff, synthetic transport)
