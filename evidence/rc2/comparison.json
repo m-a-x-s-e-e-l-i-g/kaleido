@@ -1,0 +1,31 @@
+{
+  "baseline_revision": "5255839",
+  "comparison": {
+    "six-default": {
+      "pixel_identical": true,
+      "host_speedup": 3.840052875082618,
+      "ARM_instruction_reduction": 7.888856252066328
+    },
+    "six-rotated": {
+      "pixel_identical": true,
+      "host_speedup": 4.416505756990632,
+      "ARM_instruction_reduction": 6.738782103410239
+    },
+    "twelve-rotated": {
+      "pixel_identical": true,
+      "host_speedup": 1.6464772901445868,
+      "ARM_instruction_reduction": 7.057059516648295
+    },
+    "four-axial": {
+      "pixel_identical": true,
+      "host_speedup": 0.7130794965747969,
+      "ARM_instruction_reduction": 0.999705685268745
+    },
+    "four-shifted": {
+      "pixel_identical": true,
+      "host_speedup": 3.964195450716091,
+      "ARM_instruction_reduction": 6.371002359533046
+    }
+  },
+  "camera_FPS_verified": false
+}

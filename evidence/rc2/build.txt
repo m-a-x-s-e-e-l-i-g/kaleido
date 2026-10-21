@@ -1,0 +1,5 @@
+Module version: 0.1.0-rc2
+Exact installed-core imports: PASS (58 symbols)
+Repeated module build: byte-identical
+SHA256 b168416f4cdbfee322b2633f9bb5db913ff39b413f7c3c6098635dfa8b6a954d
+Camera rc2 load/FPS/capture remain unverified

@@ -27,7 +27,7 @@ static unsigned edge(int v,unsigned extent)
 size_t fx_mirror_size(unsigned width,unsigned height)
 {
     if(width<4||width>720||(width&1)||!height||height>480)return 0;
-    return sizeof(fx_mirror_map)+(size_t)height*16*sizeof(fx_mirror_run);
+    return sizeof(fx_mirror_map)+(size_t)height*16*sizeof(fx_mirror_run)+(size_t)width*height*2;
 }
 int fx_mirror_validate(const fx_params*p)
 {
@@ -41,6 +41,7 @@ int fx_mirror_ready(const void*w,size_t n,const fx_params*p,unsigned width,unsig
     return m->magic==MAGIC&&m->width==width&&m->height==height&&m->pitch==pitch&&!memcmp(&m->params,p,sizeof(*p));
 }
 typedef struct {int x,y,a,b,c,d;} sector;
+static int prepare_lookup(fx_mirror_map*m,unsigned width,unsigned height,unsigned pitch,volatile int*stop);
 static unsigned choose(int dx,int dy,unsigned count,const sector*s)
 {
     if(count==2)return s[0].x*dy-s[0].y*dx<0?1:0;
@@ -142,6 +143,7 @@ int fx_mirror_prepare(void*w,size_t n,const fx_params*p,unsigned width,unsigned 
         m->run_count[y]=(uint16_t)nr;
     }
     m->params=*p;m->width=width;m->height=height;m->pitch=pitch;m->mode=simple?1:2;
+    if(!simple){int result=prepare_lookup(m,width,height,pitch,stop);if(result)return result;}
     m->magic=MAGIC;return FX_OK;
 }
 static int overlaps(const void*a,size_t an,const void*b,size_t bn)
@@ -151,7 +153,7 @@ static unsigned average(unsigned a,unsigned b)
     a^=128;b^=128;return (((a+b)/2)^128)&255;
 }
 typedef uint32_t pixel32 __attribute__((__may_alias__));
-typedef struct {unsigned run,x,end;int px,py,dx,dy;} cursor;
+typedef struct {unsigned run,x,end;int px,py,dx,dy;unsigned source_x,source_y;} cursor;
 static int coordinate(const fx_mirror_map*m,unsigned y,cursor*c,uint32_t*out)
 {
     if(c->x==c->end){
@@ -164,8 +166,58 @@ static int coordinate(const fx_mirror_map*m,unsigned y,cursor*c,uint32_t*out)
     int ix=rounded(c->px)+1024,iy=rounded(c->py)+1024;
     if(ix<0||ix>=3072||iy<0||iy>=3072)return 0;
     unsigned x=m->fold_x[ix],sy=m->fold_y[iy];
+    c->source_x=x;c->source_y=sy;
     *out=(sy*m->pitch+x*2+1)|((x&1)?FX_MIRROR_ODD:0);
     c->x++;c->px+=c->dx;c->py+=c->dy;return 1;
+}
+#define LOOKUP_SIMPLE (1u<<26)
+#define LOOKUP_ADDRESS (FX_MIRROR_OFFSET&~3u)
+static uint32_t*lookup_codes(fx_mirror_map*m,unsigned height)
+{return (uint32_t*)(m->runs+height);}
+static int prepare_lookup(fx_mirror_map*m,unsigned width,unsigned height,unsigned pitch,volatile int*stop)
+{
+    if(pitch&3)return FX_OK;
+    uint32_t*codes=lookup_codes(m,height);
+    for(unsigned y=0;y<5;y++)for(unsigned x=0;x<5;x++)
+        m->lookup_delta[y*5+x]=((int)y-2)*(int)pitch+((int)x-2)*4;
+    for(unsigned y=0;y<height;y++){
+        if(stop&&*stop)return FX_CANCEL;
+        cursor current={0};
+        for(unsigned x=0;x<width/2;x++){
+            uint32_t ea,eb;
+            if(!coordinate(m,y,&current,&ea))return FX_INVALID;
+            unsigned ax=current.source_x/2,ay=current.source_y;
+            if(!coordinate(m,y,&current,&eb))return FX_INVALID;
+            unsigned a=ea&FX_MIRROR_OFFSET,b=eb&FX_MIRROR_OFFSET;
+            unsigned ua=a-((ea&FX_MIRROR_ODD)?3:1),ub=b-((eb&FX_MIRROR_ODD)?3:1);
+            int dy=(int)current.source_y-(int)ay,dx=(int)(current.source_x/2)-(int)ax;
+            /* Adjacent pixels in the exposed isometries have adjacent source
+             * pairs. Retain the exact old path for legacy discontinuities. */
+            if(dx < -2||dx>2||dy < -2||dy>2)return FX_OK;
+            unsigned odd_a=(ea&FX_MIRROR_ODD)!=0,odd_b=(eb&FX_MIRROR_ODD)!=0;
+            unsigned code=(unsigned)((dy+2)*5+dx+2);
+            codes[y*(width/2)+x]=ua|odd_a|(odd_b<<1)|(code<<21)|
+                ((ua==ub&&odd_a!=odd_b)?LOOKUP_SIMPLE:0);
+        }
+    }
+    m->mode=3;return FX_OK;
+}
+static inline __attribute__((always_inline)) uint32_t gather_pair(const unsigned char*src,uint32_t code,const int32_t*delta)
+{
+    unsigned a=code&LOOKUP_ADDRESS;
+    uint32_t first=*(const pixel32*)(src+a);
+    if(code&LOOKUP_SIMPLE){
+        if(code&1)first=(first&0x00ff00ffu)|((first&0xff000000u)>>16)|((first&0x0000ff00u)<<16);
+        return first;
+    }
+    uint32_t second=*(const pixel32*)(src+a+delta[(code>>21)&31]);
+    /* Signed U/V averaged independently in two byte lanes; same floor rule
+     * as average(). Y samples retain their exact original mapping. */
+    const uint32_t mask=0x00ff00ffu,sign=0x00800080u;
+    uint32_t uv=((((first^sign)&mask)+((second^sign)&mask))>>1)&mask;
+    uint32_t y0=(first>>((code&1)*16))&0x0000ff00u;
+    uint32_t y1=(second<<((code&2)?0:16))&0xff000000u;
+    return (uv^sign)|y0|y1;
 }
 int fx_mirror_render(const void*source,void*destination,size_t capacity,const void*w,size_t n,
     const fx_params*p,unsigned width,unsigned height,unsigned pitch)
@@ -181,6 +233,19 @@ int fx_mirror_render(const void*source,void*destination,size_t capacity,const vo
     aligned=0;
 #endif
     for(unsigned y=0;y<height;y++){
+      if(aligned&&m->mode==3){
+        const uint32_t*codes=(const uint32_t*)(m->runs+height)+y*(width/2);
+        pixel32*out=(pixel32*)(dst+(size_t)y*pitch);
+        unsigned pairs=width/2,x=0;
+        for(;x+4<=pairs;x+=4){
+            out[x]=gather_pair(src,codes[x],m->lookup_delta);
+            out[x+1]=gather_pair(src,codes[x+1],m->lookup_delta);
+            out[x+2]=gather_pair(src,codes[x+2],m->lookup_delta);
+            out[x+3]=gather_pair(src,codes[x+3],m->lookup_delta);
+        }
+        for(;x<pairs;x++)out[x]=gather_pair(src,codes[x],m->lookup_delta);
+        continue;
+      }
       if(aligned&&m->mode==1&&m->fast_count){
         unsigned x=0;const unsigned char*row=src+m->y[y];pixel32*out=(pixel32*)(dst+(size_t)y*pitch);
         for(unsigned i=0;i<m->fast_count;i++){

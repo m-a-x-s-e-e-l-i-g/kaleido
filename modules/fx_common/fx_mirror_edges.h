@@ -2,8 +2,8 @@
 #ifndef FX_MIRROR_EDGES_H
 #define FX_MIRROR_EDGES_H
 #include "fx_effect.h"
-/* Versioned parameter tag preserves the historical angular mapper ABI. */
-#define FX_MIRROR_EDGES 180u
+/* Use a non-angle tag: 180 is a valid kaleidoscope rotation. */
+#define FX_MIRROR_EDGES 0x4d450001u
 #define FX_EDGE_LEFT 1u
 #define FX_EDGE_RIGHT 2u
 #define FX_EDGE_TOP 4u

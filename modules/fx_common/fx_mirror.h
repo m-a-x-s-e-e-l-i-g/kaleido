@@ -22,9 +22,12 @@ typedef struct {
     uint16_t fold_x[3072],fold_y[3072],run_count[480];
     uint32_t fast_count;
     fx_mirror_xrun fast[16];
+    int32_t lookup_delta[25];
     fx_mirror_run runs[][16];
 } fx_mirror_map;
-#define FX_MIRROR_MAX_WORKSPACE (sizeof(fx_mirror_map)+480u*16u*sizeof(fx_mirror_run))
+/* One 32-bit code per UYVY pair; retained sector runs provide an exact fallback
+ * for unaligned transports or unusual legacy geometries. No per-frame map. */
+#define FX_MIRROR_MAX_WORKSPACE (sizeof(fx_mirror_map)+480u*16u*sizeof(fx_mirror_run)+720u*480u*2u)
 FX_API size_t fx_mirror_size(unsigned width,unsigned height);
 FX_API int fx_mirror_validate(const fx_params*p);
 FX_API int fx_mirror_ready(const void*w,size_t n,const fx_params*p,unsigned width,unsigned height,unsigned pitch);

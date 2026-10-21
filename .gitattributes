@@ -7,7 +7,7 @@
 *.woff2 binary
 
 # Preserve recorded host evidence byte-for-byte.
-evidence/*.log -text
+evidence/** -text
 # RST heading underlines are not merge-conflict separators.
 *.rst conflict-marker-size=32
 # Keep upstream font-license text unchanged.

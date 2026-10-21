@@ -1,6 +1,8 @@
-# Kaleido 0.1.0-rc1 · EOS M test candidate
+# Kaleido 0.1.0-rc2 · EOS M test candidate
 
 This is an independently built module, not a replacement firmware or Magic Lantern core. It has not been loaded or photographed with on a physical camera during this implementation.
+
+rc2 fixes `u deg` / `u.u%` menu values and replaces repeated LiveView pixel geometry with a compact prepared lookup. All 720×480 preview pixels and U/V chroma values are preserved. Settings use the same files and format as rc1; no reset is required. Rotation 180° also works correctly now: it no longer collides with the inherited edge-mirror parameter tag.
 
 ## Install
 

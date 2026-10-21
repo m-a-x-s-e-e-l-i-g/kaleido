@@ -1,0 +1,77 @@
+{
+  "source_sha256": "c2d3fcef69596dbc4e276c1008d0a390ca0a22cd12a4b02b371c0fd52c842995",
+  "inputs_sha256": {
+    "tests/fixtures/rc1/fx_mirror.c": "c2d3fcef69596dbc4e276c1008d0a390ca0a22cd12a4b02b371c0fd52c842995",
+    "tests/fixtures/rc1/fx_mirror.h": "13a5b9858bc4b2e6d8cc7279232205e0ad92b66e8a7e7dc31aca79ecb7e8bff3",
+    "tests/fixtures/rc1/fx_mirror_edges.h": "f46338cbd6c19a728959aacbe4318da1cc5c9a64d5359313eee7dd9599d2b99b",
+    "modules/fx_common/fx_copy.h": "620a756c44afe12e4ef8f3fcb2bb29415572b42894749a63a163003d621ef8dc"
+  },
+  "cases": {
+    "six-default": {
+      "workspace": 49216,
+      "mode": 2,
+      "prepare_host_ms": 5.069,
+      "median_host_ms": 2.9050000000000002,
+      "sha256": "9798efd8f00a0e26a05aa45ba2891d8e8de41005a9776353c55c56f92adf2e57",
+      "arm": {
+        "instructions": 29945980,
+        "prepare_instructions": 31034973,
+        "sha256": "9798efd8f00a0e26a05aa45ba2891d8e8de41005a9776353c55c56f92adf2e57",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "six-rotated": {
+      "workspace": 49216,
+      "mode": 2,
+      "prepare_host_ms": 4.682,
+      "median_host_ms": 3.0878,
+      "sha256": "1f1bcf350bd7c83d0f60182a5dd215a93b0daf51f17d8987ee008218bee6b5ad",
+      "arm": {
+        "instructions": 30453803,
+        "prepare_instructions": 33712093,
+        "sha256": "1f1bcf350bd7c83d0f60182a5dd215a93b0daf51f17d8987ee008218bee6b5ad",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "twelve-rotated": {
+      "workspace": 49216,
+      "mode": 2,
+      "prepare_host_ms": 11.825,
+      "median_host_ms": 3.22265,
+      "sha256": "dc6ccc945e075bbbf125b41443059437f353f6539c29a4983580207781876c32",
+      "arm": {
+        "instructions": 30466942,
+        "prepare_instructions": 52270823,
+        "sha256": "dc6ccc945e075bbbf125b41443059437f353f6539c29a4983580207781876c32",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "four-axial": {
+      "workspace": 49216,
+      "mode": 1,
+      "prepare_host_ms": 0.065,
+      "median_host_ms": 0.2238,
+      "sha256": "fc61416760631462042892b9be3680cf863792d0e584b5ae38378ecc6bda3f1e",
+      "arm": {
+        "instructions": 1681378,
+        "prepare_instructions": 617600,
+        "sha256": "fc61416760631462042892b9be3680cf863792d0e584b5ae38378ecc6bda3f1e",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "four-shifted": {
+      "workspace": 49216,
+      "mode": 2,
+      "prepare_host_ms": 5.205,
+      "median_host_ms": 2.8232999999999997,
+      "sha256": "3584e18975465d64d83f6e59e03d8172b3bf4dc71cbd01fbe69a382e44075c4a",
+      "arm": {
+        "instructions": 30773171,
+        "prepare_instructions": 24490014,
+        "sha256": "3584e18975465d64d83f6e59e03d8172b3bf4dc71cbd01fbe69a382e44075c4a",
+        "callee_saved_registers_preserved": true
+      }
+    }
+  },
+  "camera_FPS_verified": false
+}

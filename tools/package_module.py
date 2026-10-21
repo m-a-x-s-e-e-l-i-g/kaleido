@@ -80,7 +80,7 @@ def package_module(module_name, instructions=None, root=ROOT):
     for path in manifest["source_files"]:
         files["source/" + path] = source_file(root, path)
     for path in ("tools/build_module.py", "tools/audit_module.py", "tools/package_module.py", "tools/reproducible_zip.py",
-                 "tools/ml-builder.Dockerfile", "targets/EOSM.202/EOSM_202.sym", "targets/EOSM.202/PROVENANCE.md"):
+                 "tools/ml-builder.Dockerfile", "tools/benchmark_preview.py", "targets/EOSM.202/EOSM_202.sym", "targets/EOSM.202/PROVENANCE.md"):
         files["source/" + path] = source_file(root, path)
     if module_name != "glock":
         files["source/tools/audit_module_set.py"] = source_file(root, "tools/audit_module_set.py")

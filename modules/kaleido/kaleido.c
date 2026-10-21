@@ -85,8 +85,9 @@ static MENU_SELECT_FUNC(configure)
 static MENU_UPDATE_FUNC(number_status)
 {
     unsigned*value=entry->priv;
-    if(value==&preferences.rotation)MENU_SET_VALUE("%u deg",*value);
-    else MENU_SET_VALUE("%u.%u%%",*value/10,*value%10);
+    /* Pinned Canon vsnprintf supports signed decimal, not %u. */
+    if(value==&preferences.rotation)MENU_SET_VALUE("%d deg",(int)*value);
+    else MENU_SET_VALUE("%d.%d%%",(int)(*value/10),(int)(*value%10));
 }
 static const char*reason(unsigned code)
 {
@@ -99,12 +100,12 @@ static MENU_UPDATE_FUNC(status)
     fx_status r;fx_status_get(&r);kaleido_gate_report capture;kaleido_gate_status(&capture);
     if(capture.phase==MG_FAILED&&capture.error!=MG_CANCEL&&capture.error!=MG_SHUTDOWN){
         MENU_SET_VALUE("Capture unavailable");
-        MENU_SET_HELP("%s. Capture stopped (code %u). Switch OFF/ON to retry; restart if it persists.",FX_VERSION,capture.error);
+        MENU_SET_HELP("%s. Capture stopped (code %d). Switch OFF/ON to retry; restart if it persists.",FX_VERSION,(int)capture.error);
     }else if(r.error){MENU_SET_VALUE("%s",reason(r.error));
         MENU_SET_HELP("%s. A+ / Auto ISO, Canon RAW, native 1x LCD and Global Draw ON.",FX_VERSION);
     }else{
         MENU_SET_VALUE("%s",!r.running?(preferences.enabled?"ON - Preparing":"OFF"):capture.phase==MG_ARMED?"ON - Ready":capture.phase==MG_HELD?"ON - Saving":"ON - Preparing");
-        MENU_SET_HELP("%s. %u segments. Physical shutter saves kaleidoscope CR2; release between shots.",FX_VERSION,kaleido_segment_count(preferences.segments));
+        MENU_SET_HELP("%s. %d segments. Physical shutter saves kaleidoscope CR2; release between shots.",FX_VERSION,(int)kaleido_segment_count(preferences.segments));
     }
     if(save_error)MENU_SET_HELP("Could not save preferences. Check card write access; settings remain active this session.");
 }

@@ -11,6 +11,16 @@ This is a separate Git project derived from Mirror Worlds 0.2.0. Only the pixel/
 
 All exposed segment counts divide 360 exactly: 4, 6 and 12. Preview, browser and RAW use the same Q14 sector/rounding convention. RAW maps cells rather than individual red/green/blue samples, retaining CFA phase. Nearest-cell sampling is intentional; interpolation across CFA colors is not performed.
 
+## Fast LiveView in rc2
+
+The general preview prepares one 32-bit code per UYVY pair when geometry changes. Each code holds the first source-pair address, both Y selectors, and a local source-pair delta. The hot loop gathers aligned words and averages signed U/V in separate byte lanes; no sector lookup, coordinate rotation or rounding is repeated per frame. Four pairs are processed per loop iteration. Axial copy/reverse paths remain in place. Unaligned input or legacy geometry outside the compact delta range uses the exact previous implementation.
+
+The 720×480 workspace is 740,516 bytes, an increase of 691,300 bytes over rc1. Capture scratch remains 895,796 bytes. Both are subject to the existing allocator and 1.5 MiB reserve. Half-press geometry, Canon controls, buffer ownership, cache publication and RAW handoff are preserved.
+
+The inherited edge tag was 180, overlapping a legal rotation. It now uses a non-angle tag so 180° follows the radial path in both preview and RAW. Preference encoding is unchanged. UI numeric values use `%d` with explicit signed casts because the pinned Canon formatter does not handle `%u` as expected.
+
+For reproducible performance comparisons, install `unicorn==2.1.4` and `pyelftools==0.32` into `.cache/arm-runtime`, then run `python tools/benchmark_preview.py`. The tool compiles rc1 fixtures and the current source with the GNU ARM builder, checks complete output hashes and callee-saved registers, and counts ARM instructions. Host timing and instruction counts do not model the physical EOS M display scheduler, caches, memory bus or FPS.
+
 ## Building
 
 `python scripts/fetch_ml_build.py` obtains and checks the pinned official archive. If the official server rejects an automated download, obtain the exact archive from the URL in that script and place it at `.cache/magiclantern.2025-06-20.EOSM.202.zip`; the script still verifies its SHA-256 before use. Never substitute another core build.

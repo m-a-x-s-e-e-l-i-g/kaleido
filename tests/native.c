@@ -90,8 +90,8 @@ static void export_geometry(void)
     unsigned char pixels[144*96*2];gl_frame frame={pixels,sizeof(pixels),144,96,288,GL_U16,0,16383};
     uint32_t region[]={0,0,96,144};const unsigned counts[]={4,6,12};
     fprintf(f,"[\n");unsigned first=1;
-    for(unsigned c=0;c<3;c++)for(unsigned a=0;a<4;a++){
-        fx_params p={{a==0?0:a==1?17:a==2?90:179,counts[c],a==2?0:500,a==3?1000:500}};fx_mirror_raw m;
+    for(unsigned c=0;c<3;c++)for(unsigned a=0;a<6;a++){
+        fx_params p={{a==0?0:a==1?17:a==2?90:a==3?179:a==4?180:359,counts[c],a==2?0:500,a==3?1000:500}};fx_mirror_raw m;
         CHECK(fx_mirror_raw_prepare(&m,&frame,region,&p,0)==FX_OK);
         fprintf(f,"%s{\"segments\":%u,\"rotation\":%u,\"centerX\":%u,\"centerY\":%u,\"points\":[",first?"":",\n",p.value[1],p.value[0],p.value[2],p.value[3]);first=0;
         for(unsigned i=0;i<100;i++){
@@ -105,9 +105,9 @@ static void export_geometry(void)
 int main(int argc,char**argv)
 {
     export_geometry();
-    const unsigned counts[]={4,6,12},angles[]={0,17,90,179,270,359};
+    const unsigned counts[]={4,6,12},angles[]={0,17,90,179,180,270,359};
     uint32_t small[]={3,5,49,75};
-    for(unsigned c=0;c<3;c++)for(unsigned a=0;a<6;a++)for(unsigned center=0;center<3;center++){
+    for(unsigned c=0;c<3;c++)for(unsigned a=0;a<7;a++)for(unsigned center=0;center<3;center++){
         fx_params p={{angles[a],counts[c],center==0?0: center==1?500:1000,center==0?1000:center==1?500:0}};
         fixture(80,52,148,small,&p,0);preview(&p);
     }

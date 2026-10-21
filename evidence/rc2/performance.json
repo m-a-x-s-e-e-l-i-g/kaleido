@@ -1,0 +1,116 @@
+{
+  "source_sha256": "a55250469e758be9b2a7bddec7a1700f4e715e9966a642eb5bc37c98be964c35",
+  "inputs_sha256": {
+    "modules/fx_common/fx_mirror.c": "a55250469e758be9b2a7bddec7a1700f4e715e9966a642eb5bc37c98be964c35",
+    "modules/fx_common/fx_mirror.h": "9398466a3c6f44ac2bb046b1bd3cca3034a6b501f0a4d2a30ece26c6f255b108",
+    "modules/fx_common/fx_mirror_edges.h": "2cfb26beb1b1a7c050d0552c4291b24786704ceea53a2801c4a7a43c1f397e22",
+    "modules/fx_common/fx_copy.h": "620a756c44afe12e4ef8f3fcb2bb29415572b42894749a63a163003d621ef8dc"
+  },
+  "cases": {
+    "six-default": {
+      "workspace": 740516,
+      "mode": 3,
+      "prepare_host_ms": 14.565,
+      "median_host_ms": 0.7565,
+      "sha256": "9798efd8f00a0e26a05aa45ba2891d8e8de41005a9776353c55c56f92adf2e57",
+      "arm": {
+        "instructions": 3795985,
+        "prepare_instructions": 58643683,
+        "sha256": "9798efd8f00a0e26a05aa45ba2891d8e8de41005a9776353c55c56f92adf2e57",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "six-rotated": {
+      "workspace": 740516,
+      "mode": 3,
+      "prepare_host_ms": 12.052,
+      "median_host_ms": 0.6991499999999999,
+      "sha256": "1f1bcf350bd7c83d0f60182a5dd215a93b0daf51f17d8987ee008218bee6b5ad",
+      "arm": {
+        "instructions": 4519185,
+        "prepare_instructions": 61331190,
+        "sha256": "1f1bcf350bd7c83d0f60182a5dd215a93b0daf51f17d8987ee008218bee6b5ad",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "twelve-rotated": {
+      "workspace": 740516,
+      "mode": 3,
+      "prepare_host_ms": 33.269,
+      "median_host_ms": 1.9573,
+      "sha256": "dc6ccc945e075bbbf125b41443059437f353f6539c29a4983580207781876c32",
+      "arm": {
+        "instructions": 4317229,
+        "prepare_instructions": 79978749,
+        "sha256": "dc6ccc945e075bbbf125b41443059437f353f6539c29a4983580207781876c32",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "four-axial": {
+      "workspace": 740516,
+      "mode": 1,
+      "prepare_host_ms": 0.098,
+      "median_host_ms": 0.31385,
+      "sha256": "fc61416760631462042892b9be3680cf863792d0e584b5ae38378ecc6bda3f1e",
+      "arm": {
+        "instructions": 1681873,
+        "prepare_instructions": 617608,
+        "sha256": "fc61416760631462042892b9be3680cf863792d0e584b5ae38378ecc6bda3f1e",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "four-shifted": {
+      "workspace": 740516,
+      "mode": 3,
+      "prepare_host_ms": 10.743,
+      "median_host_ms": 0.7121999999999999,
+      "sha256": "3584e18975465d64d83f6e59e03d8172b3bf4dc71cbd01fbe69a382e44075c4a",
+      "arm": {
+        "instructions": 4830193,
+        "prepare_instructions": 52190691,
+        "sha256": "3584e18975465d64d83f6e59e03d8172b3bf4dc71cbd01fbe69a382e44075c4a",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "4-segments-at-180": {
+      "workspace": 740516,
+      "mode": 3,
+      "prepare_host_ms": 9.719,
+      "median_host_ms": 0.61815,
+      "sha256": "3b636784b3495ab6985f683e29f03f1f00b30380281ae0f2448e65583e341ec0",
+      "arm": {
+        "instructions": 2268433,
+        "prepare_instructions": 51532366,
+        "sha256": "3b636784b3495ab6985f683e29f03f1f00b30380281ae0f2448e65583e341ec0",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "6-segments-at-180": {
+      "workspace": 740516,
+      "mode": 3,
+      "prepare_host_ms": 11.566,
+      "median_host_ms": 1.2542,
+      "sha256": "d1ab8c6dd69e6692f8212cef5408a9036ed3e6fa2b6833024e5a33269c989b5f",
+      "arm": {
+        "instructions": 3795985,
+        "prepare_instructions": 58666881,
+        "sha256": "d1ab8c6dd69e6692f8212cef5408a9036ed3e6fa2b6833024e5a33269c989b5f",
+        "callee_saved_registers_preserved": true
+      }
+    },
+    "12-segments-at-180": {
+      "workspace": 740516,
+      "mode": 3,
+      "prepare_host_ms": 14.075,
+      "median_host_ms": 0.6868,
+      "sha256": "cf2edcff08d7c18704dcd5598eff7619d46726fad9f50aae849ff0d31042e445",
+      "arm": {
+        "instructions": 3972889,
+        "prepare_instructions": 79992973,
+        "sha256": "cf2edcff08d7c18704dcd5598eff7619d46726fad9f50aae849ff0d31042e445",
+        "callee_saved_registers_preserved": true
+      }
+    }
+  },
+  "camera_FPS_verified": false
+}

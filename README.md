@@ -4,7 +4,9 @@
 
 One wedge becomes a pattern: **4, 6 or 12 segments**, a full **360° rotation control**, and a movable center. Compose in LiveView; the implementation includes a whole-Bayer-cell native Canon CR2 capture path. Kaleido has its own `kaleido.mo`, Shoot menu and checked preference files. It derives from [Mirror Worlds](https://github.com/m-a-x-s-e-e-l-i-g/mirror-worlds).
 
-**0.1.0-rc1 is a development candidate.** Host pixel, capture-transport and import checks are not physical-camera acceptance. Loading, responsiveness, RAW processing time, autofocus, Auto ISO, actual CR2 contents and Canon review/Play remain unverified on the EOS M.
+**0.1.0-rc2 is a development candidate.** Host pixel, capture-transport and import checks are not physical-camera acceptance. Loading, responsiveness, RAW processing time, autofocus, Auto ISO, actual CR2 contents and Canon review/Play remain unverified on the EOS M.
+
+**rc2 fixes numeric menu labels and accelerates LiveView.** The frame renderer uses a prepared pixel map at the original 720×480 resolution. ARM component measurements show about 6.4–7.9× fewer instructions for the previously slow radial cases, with identical UYVY output. This is not a measured camera FPS claim. Existing preferences carry over.
 
 ![Kaleido browser playground: twelve reflected segments, rotation and center controls](docs/playground.png)
 
@@ -27,7 +29,7 @@ Open `http://127.0.0.1:8782/`. The assembly step includes the candidate download
 
 The target is **original EOS M / Canon 2.0.2 / Magic Lantern dev 2025-06-20 (ed3e7c0)**. Other cameras and builds are unsupported.
 
-1. Read [the candidate instructions](docs/camera-candidate.md), then unzip [KALEIDO-0.1.0-rc1-EOSM202.zip](releases/KALEIDO-0.1.0-rc1-EOSM202.zip).
+1. Read [the candidate instructions](docs/camera-candidate.md), then unzip [KALEIDO-0.1.0-rc2-EOSM202.zip](releases/KALEIDO-0.1.0-rc2-EOSM202.zip).
 2. With the camera **OFF**, copy only `ML/MODULES/kaleido.mo` to the card. Keep the existing firmware and Magic Lantern core.
 3. In ML's Modules tab, **disable all other MAXmade effect modules**, enable `kaleido.mo`, then fully restart. Kaleido refuses to start while an older sibling module is loaded, including one whose effect switch is OFF.
 4. Use **A+ / Auto ISO / Canon RAW / single-shot / native 1× LCD / Global Draw ON**. Open **Shoot → Kaleido**, turn Live effect ON and choose the pattern.
@@ -51,6 +53,6 @@ python tools/package_module.py --instructions docs/camera-candidate.md
 python scripts/verify_candidate.py
 ```
 
-The packager refuses to overwrite an existing candidate. See [development notes](docs/development.md) and [verification evidence](docs/validation.md).
+The packager refuses to overwrite an existing candidate. See [development notes](docs/development.md) and [rc2 verification evidence](docs/validation-rc2.md).
 
 GPL-2.0-or-later. [License](COPYING) · [Credits](NOTICE.md)
